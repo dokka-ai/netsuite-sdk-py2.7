@@ -9,14 +9,14 @@ def test_get(nc):
     data = next(nc.expense_reports.get_all_generator())
     logger.debug('data = %s', data)
     assert data, 'get all generator didnt work'
-    assert data['externalId'] == 'entity-5', f'No object found with externalId'
-    assert data['internalId'] == '-5', f'No object found with internalId'
+    assert data['externalId'] == 'entity-5', 'No object found with externalId'
+    assert data['internalId'] == '-5', 'No object found with internalId'
 
     data = nc.expense_reports.get(externalId='EXPR_1')
     logger.debug('data = %s', data)
-    assert data, f'No object with externalId'
-    assert data['externalId'] == 'EXPR_1', f'No object with externalId'
-    assert data['internalId'] == '10613', f'No object with internalId'
+    assert data, 'No object with externalId'
+    assert data['externalId'] == 'EXPR_1', 'No object with externalId'
+    assert data['internalId'] == '10613', 'No object with internalId'
 
 def test_post(nc):
     filename = os.getenv('NS_ACCOUNT').lower() + '.json'

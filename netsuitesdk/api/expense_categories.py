@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from .base import ApiBase
 import logging
 
@@ -6,4 +7,4 @@ logger = logging.getLogger(__name__)
 class ExpenseCategory(ApiBase):
 
     def __init__(self, ns_client):
-        ApiBase.__init__(self, ns_client=ns_client, type_name='ExpenseCategory')
+        ApiBase.__init__(self, ns_client=ns_client, type_name=u'ExpenseCategory')

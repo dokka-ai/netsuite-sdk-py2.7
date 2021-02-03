@@ -13,7 +13,7 @@ def test_get(nc):
     internal_id = data['internalId']
     data = nc.vendor_bills.get(internalId=internal_id)
     logger.debug('data = %s', data)
-    assert data, f'No object with internalId {internal_id}'
+    assert data, 'No object with internalId {}'.format(internal_id)
 
 def test_post(nc):
     filename = os.getenv('NS_ACCOUNT').lower() + '.json'

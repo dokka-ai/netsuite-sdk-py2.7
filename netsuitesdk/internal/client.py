@@ -1,8 +1,9 @@
-"""
+u"""
     :class:`NetSuiteClient`: client proxy class which uses the python library
     Zeep to connect to a NetSuite account and make requests.
 """
 
+from __future__ import absolute_import
 import base64
 import hashlib
 import hmac
@@ -23,12 +24,12 @@ from .netsuite_types import *
 from .utils import PaginatedSearch
 
 
-class NetSuiteClient:
-    """The Netsuite client class providing access to the Netsuite
+class NetSuiteClient(object):
+    u"""The Netsuite client class providing access to the Netsuite
     SOAP/WSDL web service"""
 
-    WSDL_URL_TEMPLATE = 'https://{account}.suitetalk.api.netsuite.com/wsdl/v2019_1_0/netsuite.wsdl'
-    DATACENTER_URL_TEMPLATE = 'https://{account}.suitetalk.api.netsuite.com/services/NetSuitePort_2019_1'
+    WSDL_URL_TEMPLATE = u'https://{account}.suitetalk.api.netsuite.com/wsdl/v2019_1_0/netsuite.wsdl'
+    DATACENTER_URL_TEMPLATE = u'https://{account}.suitetalk.api.netsuite.com/services/NetSuitePort_2019_1'
 
     _search_preferences = None
     _passport = None
@@ -41,8 +42,10 @@ class NetSuiteClient:
     _token_secret = None
     _app_id = None
 
+
+
     def __init__(self, account=None, caching=True, caching_timeout=2592000):
-        """
+        u"""
         Initialize the Zeep SOAP client, parse the xsd specifications
         of Netsuite and store the complex types as attributes of this
         instance.
@@ -53,15 +56,15 @@ class NetSuiteClient:
                             If None, defaults to 30 days
         """
         self.logger = logging.getLogger(self.__class__.__name__)
-        assert account, 'Invalid account'
-        assert '-' not in account, 'Account cannot have hyphens, it is likely an underscore'
+        assert account, u'Invalid account'
+        assert u'-' not in account, u'Account cannot have hyphens, it is likely an underscore'
         self._account = account
 
-        self._wsdl_url = self.WSDL_URL_TEMPLATE.format(account=account.replace('_', '-'))
-        self._datacenter_url = self.DATACENTER_URL_TEMPLATE.format(account=account.replace('_', '-'))
+        self._wsdl_url = self.WSDL_URL_TEMPLATE.format(account=account.replace(u'_', u'-'))
+        self._datacenter_url = self.DATACENTER_URL_TEMPLATE.format(account=account.replace(u'_', u'-'))
 
         if caching:
-            path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'cache.db')
+            path = os.path.join(os.path.dirname(os.path.abspath(__file__)), u'cache.db')
             timeout = caching_timeout
             cache = SqliteCache(path=path, timeout=timeout)
             transport = Transport(cache=cache)
@@ -72,7 +75,7 @@ class NetSuiteClient:
         self._client = Client(self._wsdl_url, transport=transport)
 
         # default service points to wrong data center. need to create a new service proxy and replace the default one
-        self._service_proxy = self._client.create_service('{urn:platform_2019_1.webservices.netsuite.com}NetSuiteBinding', self._datacenter_url)
+        self._service_proxy = self._client.create_service(u'{urn:platform_2019_1.webservices.netsuite.com}NetSuiteBinding', self._datacenter_url)
 
         # Parse all complex types specified in :const:`~netsuitesdk.netsuite_types.COMPLEX_TYPES`
         # and store them as attributes of this instance. Same for simple types.
@@ -84,7 +87,7 @@ class NetSuiteClient:
         self._is_authenticated = False
         self.set_search_preferences()
 
-    def set_search_preferences(self, page_size: int = 5, return_search_columns: bool = False):
+    def set_search_preferences(self, page_size = 5, return_search_columns = False):
         self._search_preferences = self.SearchPreferences(
             bodyFieldsOnly=False,
             pageSize=page_size,
@@ -98,13 +101,13 @@ class NetSuiteClient:
                 self._namespaces[namespace] = []
             for type_name in complex_types:
                 try:
-                    verbose_type_name = '{namespace}:{type_name}'.format(
+                    verbose_type_name = u'{namespace}:{type_name}'.format(
                         namespace=namespace,
                         type_name=type_name
                     )
                     complex_type = self._client.get_type(verbose_type_name)
                 except ZeepLookupError:
-                    self.logger.warning('LookupError: Did not find complex type {}'.format(type_name))
+                    self.logger.warning(u'LookupError: Did not find complex type {}'.format(type_name))
                 else:
                     setattr(self, type_name, complex_type)
                     self._complex_types[type_name] = complex_type
@@ -117,13 +120,13 @@ class NetSuiteClient:
                 self._namespaces[namespace] = []
             for type_name in simple_types:
                 try:
-                    verbose_type_name = '{namespace}:{type_name}'.format(
+                    verbose_type_name = u'{namespace}:{type_name}'.format(
                         namespace=namespace,
                         type_name=type_name
                     )
                     simple_type = self._client.get_type(verbose_type_name)
                 except ZeepLookupError:
-                    self.logger.warning('LookupError: Did not find simple type {}'.format(type_name))
+                    self.logger.warning(u'LookupError: Did not find simple type {}'.format(type_name))
                 else:
                     setattr(self, type_name, simple_type)
                     self._simple_types[type_name] = simple_type
@@ -139,7 +142,7 @@ class NetSuiteClient:
         return self._simple_types[type_name]
 
     def get_complex_type_attributes(self, complex_type):
-        if isinstance(complex_type, str):
+        if isinstance(complex_type, unicode):
             complex_type = self.get_complex_type(complex_type)
         try:
             return [(attribute.name, attribute.type.name) for attribute in complex_type._attributes]
@@ -147,7 +150,7 @@ class NetSuiteClient:
             return []
 
     def get_complex_type_elements(self, complex_type):
-        if isinstance(complex_type, str):
+        if isinstance(complex_type, unicode):
             complex_type = self.get_complex_type(complex_type)
         try:
             return [(attr_name, element.type.name) for attr_name, element in complex_type.elements]
@@ -155,32 +158,32 @@ class NetSuiteClient:
             return []
 
     def get_complex_type_info(self, complex_type):
-        if isinstance(complex_type, str):
+        if isinstance(complex_type, unicode):
             complex_type = self.get_complex_type(complex_type)
             label = complex_type
         else:
-            if hasattr(complex_type, 'name'):
+            if hasattr(complex_type, u'name'):
                 label = complex_type.name
             else:
-                label = str(complex_type)
+                label = unicode(complex_type)
         attributes = self.get_complex_type_attributes(complex_type)
         elements = self.get_complex_type_elements(complex_type)
-        yield 'complexType {}:'.format(label)
+        yield u'complexType {}:'.format(label)
         if attributes:
-            yield 'Attributes:'
+            yield u'Attributes:'
             for name, type_name in attributes:
-                yield '\t{}: {}'.format(name, type_name)
+                yield u'\t{}: {}'.format(name, type_name)
         else:
-            yield 'No attributes'
+            yield u'No attributes'
         if elements:
-            yield 'Elements:'
+            yield u'Elements:'
             for name, type_name in elements:
-                yield '\t{}: {}'.format(name, type_name)
+                yield u'\t{}: {}'.format(name, type_name)
         else:
-            yield 'No elements'
+            yield u'No elements'
 
     def login(self, email, password, role, application_id):
-        """
+        u"""
         Authenticate and login user for a Netsuite session. The passport argument is
         of type Passport(email, password, role and account) which holds the credentials
         and can be created with NetSuiteClient.create_password.
@@ -204,40 +207,40 @@ class NetSuiteClient:
             self._app_info = self.ApplicationInfo(applicationId=application_id)
             response = self._service_proxy.login(
                                 self._passport,
-                                _soapheaders={'applicationInfo': self._app_info}
+                                _soapheaders={u'applicationInfo': self._app_info}
             )
             if response.status.isSuccess:
                 self._is_authenticated = True
                 return response
             else:
-                statusDetail = response.status['statusDetail'][0]
-                exc = self._request_error('login',
+                statusDetail = response.status[u'statusDetail'][0]
+                exc = self._request_error(u'login',
                                           detail=statusDetail,
                                           error_cls=NetSuiteLoginError)
                 raise exc
-        except Fault as fault:
-            exc = NetSuiteLoginError(str(fault), code=fault.code)
-            raise exc from None
+        except Fault, fault:
+            exc = NetSuiteLoginError(unicode(fault), code=fault.code)
+            raise exc
 
     def _generate_token_passport(self):
         def compute_nonce(length=20):
-            """pseudo-random generated numeric string"""
-            return ''.join([str(random.randint(0, 9)) for i in range(length)])
+            u"""pseudo-random generated numeric string"""
+            return u''.join([unicode(random.randint(0, 9)) for i in xrange(length)])
 
         nonce = compute_nonce(length=20)
         timestamp = int(time.time())
-        key = '{}&{}'.format(self._consumer_secret, self._token_secret)
-        base_string = '&'.join([self._account, self._consumer_key, self._token_key, nonce, str(timestamp)])
-        key_bytes = key.encode(encoding='ascii')
-        message_bytes = base_string.encode(encoding='ascii')
+        key = u'{}&{}'.format(self._consumer_secret, self._token_secret)
+        base_string = u'&'.join([self._account, self._consumer_key, self._token_key, nonce, unicode(timestamp)])
+        key_bytes = key.encode(encoding=u'ascii')
+        message_bytes = base_string.encode(encoding=u'ascii')
         # compute the signature
-        if self._signature_algorithm == 'HMAC-SHA256':
+        if self._signature_algorithm == u'HMAC-SHA256':
             # hash
             hashed_value = hmac.new(key_bytes, msg=message_bytes, digestmod=hashlib.sha256)
-        elif self._signature_algorithm == 'HMAC-SHA1':
+        elif self._signature_algorithm == u'HMAC-SHA1':
             hashed_value = hmac.new(key_bytes, msg=message_bytes, digestmod=hashlib.sha1)
         else:
-            raise NetSuiteError("signature_algorithm needs to be one of 'HMAC-SHA256', 'HMAC-SHA1'")
+            raise NetSuiteError(u"signature_algorithm needs to be one of 'HMAC-SHA256', 'HMAC-SHA1'")
 
         dig = hashed_value.digest()
         # convert dig (a byte sequence) to a base 64 string
@@ -247,8 +250,8 @@ class NetSuiteClient:
         return self.TokenPassport(account=self._account, consumerKey=self._consumer_key, token=self._token_key,
                                   nonce=nonce, timestamp=timestamp, signature=signature)
 
-    def connect_tba(self, consumer_key, consumer_secret, token_key, token_secret, signature_algorithm='HMAC-SHA256'):
-        """
+    def connect_tba(self, consumer_key, consumer_secret, token_key, token_secret, signature_algorithm=u'HMAC-SHA256'):
+        u"""
         Create a TokenPassport object holding credentials for Token based
         authentication which will be passed to NetSuiteClient.login
 
@@ -286,16 +289,16 @@ class NetSuiteClient:
         if error_cls is None:
             error_cls = NetSuiteRequestError
         exc = error_cls(
-                "An error occured in a {service_name} request: {msg}".format(
+                u"An error occured in a {service_name} request: {msg}".format(
                                                     service_name=service_name,
-                                                    msg=detail['message']),
-                code=detail['code']
+                                                    msg=detail[u'message']),
+                code=detail[u'code']
         )
 #        self.logger.error(str(exc))
         return exc
 
-    def _build_soap_headers(self, include_search_preferences: bool = False):
-        """
+    def _build_soap_headers(self, include_search_preferences = False):
+        u"""
         Generate soap headers dictionary to send with a request
 
         :param Passport passport: holds the authentication credentials
@@ -313,18 +316,18 @@ class NetSuiteClient:
             # need to pass authentication details in the header
             pass
         elif self._consumer_key is not None:
-            soapheaders['tokenPassport'] = self._generate_token_passport()
+            soapheaders[u'tokenPassport'] = self._generate_token_passport()
         elif self._passport is not None:
-            soapheaders['passport'] = self._passport
+            soapheaders[u'passport'] = self._passport
         else:
-            raise NetSuiteError('Must either login first or pass passport or tokenPassport to request header.')
+            raise NetSuiteError(u'Must either login first or pass passport or tokenPassport to request header.')
         if include_search_preferences:
-            soapheaders['searchPreferences'] = self._search_preferences
+            soapheaders[u'searchPreferences'] = self._search_preferences
 
         return soapheaders
 
     def request(self, name, *args, **kwargs):
-        """
+        u"""
         Make a NetSuite web service request
 
         :param str name: the name of the request service ('get', 'search', ...)
@@ -333,14 +336,14 @@ class NetSuiteClient:
         """
         method = getattr(self._service_proxy, name)
         # call the service:
-        include_search_preferences = (name == 'search')
-        response = method(*args, 
+        include_search_preferences = (name == u'search')
+        response = method(*args,
                 _soapheaders=self._build_soap_headers(include_search_preferences=include_search_preferences)
                 , **kwargs)
         return response
 
     def get(self, recordType, internalId=None, externalId=None):
-        """
+        u"""
         Make a get request to retrieve an object of type recordType
         specified by either internalId or externalId
 
@@ -358,21 +361,21 @@ class NetSuiteClient:
         elif externalId is not None:
             record_ref = self.RecordRef(type=recordType, externalId=externalId)
         else:
-            raise ValueError('Either internalId or externalId is necessary to make a get request.')
+            raise ValueError(u'Either internalId or externalId is necessary to make a get request.')
 
-        response = self.request('get', baseRef=record_ref)
+        response = self.request(u'get', baseRef=record_ref)
         response = response.body.readResponse
 
         status = response.status
         if status.isSuccess:
-            record = response['record']
+            record = response[u'record']
             return record
         else:
-            exc = self._request_error('get', detail=status['statusDetail'][0])
+            exc = self._request_error(u'get', detail=status[u'statusDetail'][0])
             raise exc
 
     def getAll(self, recordType):
-        """
+        u"""
         Make a getAll request to retrieve all objects of type recordType.
         All NetSuite types available for a search
         are listed under :const:`constants.GET_ALL_RECORD_TYPES`.
@@ -386,22 +389,22 @@ class NetSuiteClient:
 
         recordType = recordType[0].lower() + recordType[1:]
         record = self.GetAllRecord(recordType=recordType)
-        response = self.request('getAll', record=record)
+        response = self.request(u'getAll', record=record)
         response = response.body.getAllResult
 
         status = response.status
         if status.isSuccess:
-            records = response['recordList']['record']
+            records = response[u'recordList'][u'record']
             return records
         else:
-            exc = self._request_error('getAll', detail=status['statusDetail'][0])
+            exc = self._request_error(u'getAll', detail=status[u'statusDetail'][0])
             raise exc
 
     def search_factory(self, type_name, **kwargs):
         _type_name = type_name[0].lower() + type_name[1:]
         if not _type_name in SEARCH_RECORD_TYPES:
-            raise NetSuiteTypeError('{} is not a searchable NetSuite type!'.format(type_name))
-        search_cls_name = '{}Search'.format(type_name)
+            raise NetSuiteTypeError(u'{} is not a searchable NetSuite type!'.format(type_name))
+        search_cls_name = u'{}Search'.format(type_name)
         search_cls = self.get_complex_type(search_cls_name)
         search_record = search_cls(**kwargs)
         return search_record
@@ -409,8 +412,8 @@ class NetSuiteClient:
     def basic_search_factory(self, type_name, **kwargs):
         _type_name = type_name[0].lower() + type_name[1:]
         if not _type_name in SEARCH_RECORD_TYPES:
-            raise NetSuiteTypeError('{} is not a searchable NetSuite type!'.format(type_name))
-        basic_search_cls_name = '{}SearchBasic'.format(type_name)
+            raise NetSuiteTypeError(u'{} is not a searchable NetSuite type!'.format(type_name))
+        basic_search_cls_name = u'{}SearchBasic'.format(type_name)
         basic_search_cls = self.get_complex_type(basic_search_cls_name)
         basic_search = basic_search_cls()
         for key, value in kwargs.items():
@@ -418,7 +421,7 @@ class NetSuiteClient:
         return basic_search
 
     def search(self, searchRecord):
-        """
+        u"""
         Make a search request to retrieve an object of type recordType
         specified by internalId. All NetSuite types available for a search
         are listed under :const:`constants.SEARCH_RECORD_TYPES`.
@@ -434,14 +437,14 @@ class NetSuiteClient:
                     str searchId: identifier for the search
                     list records: the actual records found
         """
-        response = self.request('search',
+        response = self.request(u'search',
                                 searchRecord=searchRecord)
 
         result = response.body.searchResult
         status = result.status
         success = status.isSuccess
         if success:
-            if hasattr(result.recordList, 'record'):
+            if hasattr(result.recordList, u'record'):
                 result.records = result.recordList.record
                 return result
             else:
@@ -449,11 +452,11 @@ class NetSuiteClient:
                 result.records = None
                 return result
         else:
-            exc = self._request_error('search', detail=status['statusDetail'][0])
+            exc = self._request_error(u'search', detail=status[u'statusDetail'][0])
             raise exc
 
     def searchMoreWithId(self, searchId, pageIndex):
-        response = self.request('searchMoreWithId',
+        response = self.request(u'searchMoreWithId',
                                 searchId=searchId,
                                 pageIndex=pageIndex)
 
@@ -464,11 +467,11 @@ class NetSuiteClient:
             result.records = result.recordList.record
             return result
         else:
-            exc = self._request_error('searchMoreWithId', detail=status['statusDetail'][0])
+            exc = self._request_error(u'searchMoreWithId', detail=status[u'statusDetail'][0])
             raise exc
 
     def upsert(self, record):
-        """
+        u"""
         Add an object of type recordType with given externalId..
         If a record of specified type with matching externalId already
         exists, it is updated.
@@ -486,16 +489,16 @@ class NetSuiteClient:
         :rtype: RecordRef
         """
 
-        response = self.request('upsert', record=record)
+        response = self.request(u'upsert', record=record)
         response = response.body.writeResponse
         status = response.status
         if status.isSuccess:
-            record_ref = response['baseRef']
-            self.logger.debug('Successfully updated record of type {type}, internalId: {internalId}, externalId: {externalId}'.format(
-                    type=record_ref['type'], internalId=record_ref['internalId'], externalId=record_ref['externalId']))
+            record_ref = response[u'baseRef']
+            self.logger.debug(u'Successfully updated record of type {type}, internalId: {internalId}, externalId: {externalId}'.format(
+                    type=record_ref[u'type'], internalId=record_ref[u'internalId'], externalId=record_ref[u'externalId']))
             return record_ref
         else:
-            exc = self._request_error('upsert', detail=status['statusDetail'][0])
+            exc = self._request_error(u'upsert', detail=status[u'statusDetail'][0])
             raise exc
 
     # def upsertList(self, records):

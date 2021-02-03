@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import logging
 
 from netsuitesdk.internal.utils import PaginatedSearch
@@ -10,77 +11,77 @@ logger = logging.getLogger(__name__)
 
 
 class VendorBills(ApiBase):
-    """
+    u"""
     VendorBills are not directly searchable - only via as transactions
     """
 
     def __init__(self, ns_client):
-        ApiBase.__init__(self, ns_client=ns_client, type_name='vendorBill')
+        ApiBase.__init__(self, ns_client=ns_client, type_name=u'vendorBill')
 
     def get_all_generator(self):
-        record_type_search_field = self.ns_client.SearchStringField(searchValue='VendorBill', operator='contains')
-        basic_search = self.ns_client.basic_search_factory('Transaction', recordType=record_type_search_field)
+        record_type_search_field = self.ns_client.SearchStringField(searchValue=u'VendorBill', operator=u'contains')
+        basic_search = self.ns_client.basic_search_factory(u'Transaction', recordType=record_type_search_field)
         paginated_search = PaginatedSearch(client=self.ns_client,
-                                           type_name='Transaction',
+                                           type_name=u'Transaction',
                                            basic_search=basic_search,
                                            pageSize=20)
         return self._paginated_search_to_generator(paginated_search=paginated_search)
 
-    def post(self, data) -> OrderedDict:
-        assert data['externalId'], 'missing external id'
-        vb = self.ns_client.VendorBill(externalId=data['externalId'])
+    def post(self, data):
+        assert data[u'externalId'], u'missing external id'
+        vb = self.ns_client.VendorBill(externalId=data[u'externalId'])
         expense_list = []
-        for eod in data['expenseList']:
-            if 'customFieldList' in eod and eod['customFieldList']:
+        for eod in data[u'expenseList']:
+            if u'customFieldList' in eod and eod[u'customFieldList']:
                 custom_fields = []
-                for field in eod['customFieldList']:
-                    if field['type'] == 'String':
+                for field in eod[u'customFieldList']:
+                    if field[u'type'] == u'String':
                         custom_fields.append(
                             self.ns_client.StringCustomFieldRef(
-                                scriptId=field['scriptId'] if 'scriptId' in field else None,
-                                internalId=field['internalId'] if 'internalId' in field else None,
-                                value=field['value']
+                                scriptId=field[u'scriptId'] if u'scriptId' in field else None,
+                                internalId=field[u'internalId'] if u'internalId' in field else None,
+                                value=field[u'value']
                             )
                         )
-                    elif field['type'] == 'Select':
+                    elif field[u'type'] == u'Select':
                         custom_fields.append(
                             self.ns_client.SelectCustomFieldRef(
-                                scriptId=field['scriptId'] if 'scriptId' in field else None,
-                                internalId=field['internalId'] if 'internalId' in field else None,
+                                scriptId=field[u'scriptId'] if u'scriptId' in field else None,
+                                internalId=field[u'internalId'] if u'internalId' in field else None,
                                 value=self.ns_client.ListOrRecordRef(
-                                    internalId=field['value']
+                                    internalId=field[u'value']
                                 )
                             )
                         )
-                eod['customFieldList'] = self.ns_client.CustomFieldList(custom_fields)
+                eod[u'customFieldList'] = self.ns_client.CustomFieldList(custom_fields)
             vbe = self.ns_client.VendorBillExpense(**eod)
             expense_list.append(vbe)
         
-        vb['expenseList'] = self.ns_client.VendorBillExpenseList(expense=expense_list)
-        vb['currency'] = self.ns_client.RecordRef(**(data['currency']))
+        vb[u'expenseList'] = self.ns_client.VendorBillExpenseList(expense=expense_list)
+        vb[u'currency'] = self.ns_client.RecordRef(**(data[u'currency']))
 
-        if 'memo' in data:
-            vb['memo'] = data['memo']
+        if u'memo' in data:
+            vb[u'memo'] = data[u'memo']
 
-        if 'tranDate' in data:
-            vb['tranDate'] = data['tranDate']
+        if u'tranDate' in data:
+            vb[u'tranDate'] = data[u'tranDate']
 
-        if 'tranId' in data:
-            vb['tranId'] = data['tranId']
+        if u'tranId' in data:
+            vb[u'tranId'] = data[u'tranId']
 
-        if 'class' in data:
-            vb['class'] = self.ns_client.RecordRef(**(data['class']))
+        if u'class' in data:
+            vb[u'class'] = self.ns_client.RecordRef(**(data[u'class']))
 
-        if 'location' in data:
-            vb['location'] = self.ns_client.RecordRef(**(data['location']))
+        if u'location' in data:
+            vb[u'location'] = self.ns_client.RecordRef(**(data[u'location']))
 
-        if 'department' in data:
-            vb['department'] = self.ns_client.RecordRef(**(data['department']))
+        if u'department' in data:
+            vb[u'department'] = self.ns_client.RecordRef(**(data[u'department']))
 
-        if 'account' in data:
-            vb['account'] = self.ns_client.RecordRef(**(data['account']))
+        if u'account' in data:
+            vb[u'account'] = self.ns_client.RecordRef(**(data[u'account']))
 
-        vb['entity'] = self.ns_client.RecordRef(**(data['entity']))
-        logger.debug('able to create vb = %s', vb)
+        vb[u'entity'] = self.ns_client.RecordRef(**(data[u'entity']))
+        logger.debug(u'able to create vb = %s', vb)
         res = self.ns_client.upsert(vb)
         return self._serialize(res)

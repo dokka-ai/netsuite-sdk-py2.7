@@ -1,9 +1,9 @@
-class PaginatedSearch:
+class PaginatedSearch(object):
 
     default_page_size = 20
 
     def __init__(self, client, type_name, search_record=None, basic_search=None, pageSize=None, perform_search=True):
-        """
+        u"""
         PaginatedSearch is a utility class that can be used to perform
         a search.
 
@@ -52,11 +52,11 @@ class PaginatedSearch:
         return 0
 
     def search(self):
-        """ Call the netsuite operation `search` """
+        u""" Call the netsuite operation `search` """
         self._result = self._ns.search(searchRecord=self.search_record)
 
     def goto_page(self, page_index):
-        """ After a search was performed, this method utilizes the NetSuite
+        u""" After a search was performed, this method utilizes the NetSuite
         operation `searchMoreWithId` to retrieve more results """
 
         if self._result is None:

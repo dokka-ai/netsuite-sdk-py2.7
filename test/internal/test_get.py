@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from netsuitesdk.internal.utils import PaginatedSearch
 import logging
 import pytest
@@ -5,25 +6,25 @@ import pytest
 logger = logging.getLogger(__name__)
 
 def test_get_currency(ns):
-    record = ns.get(recordType='currency', internalId='1')
-    assert record, 'No currency record for internalId 1'
+    record = ns.get(recordType=u'currency', internalId=u'1')
+    assert record, u'No currency record for internalId 1'
 
 def test_get_vendor_bill(ns):
-    record = ns.get(recordType='vendorBill', externalId='1234')
-    assert record, 'No vendor bill found'
+    record = ns.get(recordType=u'vendorBill', externalId=u'1234')
+    assert record, u'No vendor bill found'
 
 
 def test_get_journal_entry(ns):
-    record = ns.get(recordType='journalEntry', externalId='JE_01')
-    assert record, 'No journal entry found'
+    record = ns.get(recordType=u'journalEntry', externalId=u'JE_01')
+    assert record, u'No journal entry found'
 
 def test_get_employee(ns):
-    record = ns.get(recordType='employee', internalId='1648')
-    assert record, 'No employee record for internalId 1'
+    record = ns.get(recordType=u'employee', internalId=u'1648')
+    assert record, u'No employee record for internalId 1'
 
 def test_get_expense_report(ns):
-    record = ns.get(recordType='ExpenseReport', externalId='EXPR_1')
-    assert record, 'No expense report found'
+    record = ns.get(recordType=u'ExpenseReport', externalId=u'EXPR_1')
+    assert record, u'No expense report found'
 
 # def test_get_currency1(nc):
 #     currency = nc.currency.get(internal_id='1')

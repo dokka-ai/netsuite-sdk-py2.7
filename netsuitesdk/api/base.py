@@ -5,7 +5,7 @@ from netsuitesdk.internal.utils import PaginatedSearch
 from typing import List
 
 logger = logging.getLogger(__name__)
- 
+
  # TODO: introduce arg and return types
 class ApiBase:
     def __init__(self, ns_client, type_name):
@@ -21,23 +21,23 @@ class ApiBase:
         """
         return self._search_all_generator(page_size=page_size)
 
-    def get(self, internalId=None, externalId=None) -> OrderedDict:
+    def get(self, internalId=None, externalId=None):
         return self._get(internalId=internalId, externalId=externalId)
 
-    def get_ref(self, internalId=None, externalId=None) -> OrderedDict:
+    def get_ref(self, internalId=None, externalId=None):
         return self._serialize(self.ns_client.RecordRef(type=self.type_name.lower(), internalId=internalId, externalId=externalId))
 
-    def post(self, data) -> OrderedDict:
+    def post(self, data):
         raise NotImplementedError('post method not implemented')
 
-    def _serialize(self, record) -> OrderedDict:
+    def _serialize(self, record):
         """
         record: single record
         Returns a dict
         """
         return zeep.helpers.serialize_object(record)
 
-    def _serialize_array(self, records) -> List[OrderedDict]:
+    def _serialize_array(self, records):
         """
         records: a list of records
         Returns an array of dicts
@@ -50,7 +50,7 @@ class ApiBase:
 
         num_pages = paginated_search.total_pages
         logger.debug('total pages = %d, records in page = %d', paginated_search.total_pages, paginated_search.num_records)
-        logger.debug(f'current page index {paginated_search.page_index}')
+        logger.debug(u'current page index {}'.format(paginated_search.page_index))
         logger.debug('going to page %d', 0)
 
         num_records = paginated_search.num_records
@@ -61,7 +61,7 @@ class ApiBase:
         for p in range(2, num_pages + 1):
             logger.debug('going to page %d', p)
             paginated_search.goto_page(p)
-            logger.debug(f'current page index {paginated_search.page_index}')
+            logger.debug(u'current page index {}'.format(paginated_search.page_index))
             num_records = paginated_search.num_records
             for r in range(0, num_records):
                 record = paginated_search.records[r]
@@ -71,15 +71,15 @@ class ApiBase:
         ps = PaginatedSearch(client=self.ns_client, type_name=self.type_name, pageSize=page_size)
         return self._paginated_search_to_generator(paginated_search=ps)
 
-    def _get_all(self) -> List[OrderedDict]:
+    def _get_all(self):
         records = self.ns_client.getAll(recordType=self.type_name)
         return self._serialize_array(records)
-    
+
     def _get_all_generator(self):
         res = self._get_all()
         for r in res:
             yield r
 
-    def _get(self, internalId=None, externalId=None) -> OrderedDict:
+    def _get(self, internalId=None, externalId=None):
         record = self.ns_client.get(recordType=self.type_name, internalId=internalId, externalId=externalId)
         return self._serialize(record=record)

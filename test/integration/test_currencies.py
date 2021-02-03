@@ -11,7 +11,7 @@ def test_get(nc):
     internal_id = data[0]['internalId']
     data = nc.currencies.get(internalId=internal_id)
     logger.debug('data = %s', data)
-    assert data, f'No object with internalId {internal_id}'
+    assert data, 'No object with internalId {}'.format(internal_id)
 
 def test_get_all_generator(nc):
     res1 = nc.currencies.get_all()

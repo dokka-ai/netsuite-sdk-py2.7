@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from .api.accounts import Accounts
 from .api.classifications import Classifications
 from .api.departments import Departments
@@ -20,7 +21,7 @@ from .api.vendor_payments import VendorPayments
 from .internal.client import NetSuiteClient
 
 
-class NetSuiteConnection:
+class NetSuiteConnection(object):
     def __init__(self, account, consumer_key, consumer_secret, token_key, token_secret):
         ns_client = NetSuiteClient(account=account)
         ns_client.connect_tba(
