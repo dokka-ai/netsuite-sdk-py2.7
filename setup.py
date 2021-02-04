@@ -1,26 +1,29 @@
+from __future__ import with_statement
+from __future__ import absolute_import
 import setuptools
+from io import open
 
-with open('README.md', 'r') as f:
+with open(u'README.md', u'r') as f:
     long_description = f.read()
 
 setuptools.setup(
-    name='netsuitesdk',
-    version='1.12.0',
-    author='Siva Narayanan',
-    author_email='siva@fyle.in',
-    description='Python SDK for accessing the NetSuite SOAP webservice',
-    license='MIT',
+    name=u'netsuitesdk',
+    version=u'1.12.0',
+    author=u'Siva Narayanan',
+    author_email=u'siva@fyle.in',
+    description=u'Python SDK for accessing the NetSuite SOAP webservice',
+    license=u'MIT',
     long_description=long_description,
-    long_description_content_type='text/markdown',
-    keywords=['netsuite', 'api', 'python', 'sdk'],
-    url='https://github.com/fylein/netsuite-sdk-py',
+    long_description_content_type=u'text/markdown',
+    keywords=[u'netsuite', u'api', u'python', u'sdk'],
+    url=u'https://github.com/fylein/netsuite-sdk-py',
     packages=setuptools.find_packages(),
-    install_requires=['zeep'],
+    install_requires=[u'zeep'],
     classifiers=[
-        'Topic :: Internet :: WWW/HTTP',
-        'Intended Audience :: Developers',
-        'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
+        u'Topic :: Internet :: WWW/HTTP',
+        u'Intended Audience :: Developers',
+        u'Programming Language :: Python :: 3',
+        u'License :: OSI Approved :: MIT License',
+        u'Operating System :: OS Independent',
     ]
 )

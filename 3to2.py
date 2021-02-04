@@ -25,7 +25,9 @@ nc = NetSuiteConnection(
 # print(nc)
 # exit(1)
 # Use get_all methods to get all objects of certain types
-#currencies = nc.currencies.get_all()
+
+currencies = nc.currencies.get_all()
+
 locations = nc.locations.get_all()
 departments = nc.departments.get_all()
 classifications = nc.classifications.get_all()
@@ -38,18 +40,19 @@ vendor_bills = list(itertools.islice(nc.vendor_bills.get_all_generator(), 10))
 vendors = list(itertools.islice(nc.vendors.get_all_generator(), 10))
 vendor_payments = nc.vendor_payments.get_all()
 
-data = {
-  'accounts': accounts,
-  'classifications': classifications,
-  'departments': departments,
-  'locations': locations,
-  #'currencies': currencies,
-  'vendors': vendors,
-  'vendor_bills': vendor_bills,
-  #'subsidiaries': subsidiaries,
-  'expense_categories': expense_categories,
-  'employees': employees,
-  'vendor_payments': vendor_payments
-}
-pprint(data)
+pprint(vendor_bills)
+# data = {
+#   'accounts': accounts,
+#   'classifications': classifications,
+#   'departments': departments,
+#   'locations': locations,
+#   #'currencies': currencies,
+#   'vendors': vendors,
+#   'vendor_bills': vendor_bills,
+#   #'subsidiaries': subsidiaries,
+#   'expense_categories': expense_categories,
+#   'employees': employees,
+#   'vendor_payments': vendor_payments
+# }
+# pprint(data)
 #print("--- %s seconds ---" % (time.time() - start_time))

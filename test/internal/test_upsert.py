@@ -24,17 +24,16 @@ def get_vendor(ns):
     return get_record(ns, u'Vendor')
 
 def get_category_account(ns):
-    return ns.get(recordType=u'account', internalId=84)
+    return ns.get(recordType=u'account', internalId=119)
 
 def get_currency(ns):
     return ns.get(recordType=u'currency', internalId=u'1')
 
 def get_employee(ns):
-    return ns.get(recordType=u'employee', internalId=u'1648')
+    return ns.get(recordType=u'employee', internalId=u'5')
 
 def test_upsert_vendor_bill(ns):
     vendor_ref = ns.RecordRef(type=u'vendor', internalId=get_vendor(ns).internalId)
-    bill_account_ref = ns.RecordRef(type=u'account', internalId=25)
     cat_account_ref = ns.RecordRef(type=u'account', internalId=get_category_account(ns).internalId)
     loc_ref = ns.RecordRef(type=u'location', internalId=get_location(ns).internalId)
     dep_ref = ns.RecordRef(type=u'department', internalId=get_department(ns).internalId)
@@ -58,7 +57,7 @@ def test_upsert_vendor_bill(ns):
 
     expenses.append(vbe1)
 
-    bill = ns.VendorBill(externalId=u'1234')
+    bill = ns.VendorBill(externalId=u'4')
     bill[u'currency'] = ns.RecordRef(type=u'currency', internalId=get_currency(ns).internalId) # US dollar
     bill[u'exchangerate'] = 1.0
     bill[u'expenseList'] = ns.VendorBillExpenseList(expense=expenses)
