@@ -1,0 +1,4 @@
+init_env.sh
+*.pyc
+*/*.pyc
+.idea
