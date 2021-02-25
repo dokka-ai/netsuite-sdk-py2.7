@@ -1,5 +1,7 @@
 # netsuite-sdk-py
 
+[![CI](https://github.com/dokka-ai/netsuite-sdk-py2.7/actions/workflows/main.yml/badge.svg)](https://github.com/dokka-ai/netsuite-sdk-py2.7/actions/workflows/main.yml)
+
 *Warning*: This SDK is under active development and some of the contracts will likely evolve in the next couple of weeks. It is not yet production-ready. If you want to collaborate on this, please mail siva@fyle.in
 
 Netsuite-sdk-py is a Python SDK. It uses the SOAP client library zeep(https://python-zeep.readthedocs.io/en/master/) for accessing NetSuite resources via the NetSuite SOAP web service SuiteTalk(http://www.netsuite.com/portal/platform/developer/suitetalk.shtml), but hides the complexity from the SDK user.
