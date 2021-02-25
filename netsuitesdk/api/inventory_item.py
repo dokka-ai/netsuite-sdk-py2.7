@@ -4,8 +4,12 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class taxCode(ApiBase):
+
+class InventoryItem(ApiBase):
+
+    def post(self, data):
+        pass
 
     def __init__(self, ns_client):
-        ApiBase.__init__(self, ns_client=ns_client, type_name=u'TaxType')
+        ApiBase.__init__(self, ns_client=ns_client, type_name=u'InventoryItem')
 

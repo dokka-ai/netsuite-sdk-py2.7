@@ -20,6 +20,7 @@ from .api.custom_records import CustomRecords
 from .api.vendor_payments import VendorPayments
 from .api.accountingPeriod import AccountingPeriod
 from .api.taxtype import TaxType
+from .api.inventory_item import InventoryItem
 from .internal.client import NetSuiteClient
 from .internal.utils import PaginatedSearch
 
@@ -55,6 +56,7 @@ class NetSuiteConnection(object):
         self.vendor_payments = VendorPayments(ns_client)
         self.accountingPeriod = AccountingPeriod(ns_client)
         self.taxType = TaxType(ns_client)
+        self.items = InventoryItem(ns_client)
         self.ns = ns_client
 
     def get_record_by_type(self, _type, internal_id):

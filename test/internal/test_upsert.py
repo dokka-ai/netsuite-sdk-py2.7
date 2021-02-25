@@ -2,6 +2,7 @@ from __future__ import absolute_import
 import logging
 import pytest
 import zeep
+import datetime
 
 from netsuitesdk.internal.utils import PaginatedSearch
 
@@ -36,7 +37,7 @@ def get_currency(ns):
 def get_employee(ns):
     return ns.get(recordType=u'employee', internalId=u'5')
 
-def test_upsert_vendor_bill(ns):
+def nottest_upsert_vendor_bill_expense(ns):
     vendor_ref = ns.RecordRef(type=u'vendor', internalId=7)
     category = ns.RecordRef(type=u'expenseCategory', internalId=1)
     cat_account_ref = ns.RecordRef(type=u'account', internalId=58)
@@ -91,6 +92,56 @@ def test_upsert_vendor_bill(ns):
     print bill2[u'userTotal']
     assert (29.99 < bill2[u'userTotal']) and (bill2[u'userTotal'] < 36), u'Bill total is not 30.0'
 
+
+def test_upsert_vendor_bill_items(ns):
+    external_id = datetime.date.today()
+    vendor_id = u'7'
+    currency_id = u'1'
+    posting_period_id = u'128'
+    approval_status_id = u'1'
+
+    bill = ns.VendorBill(externalId=external_id)
+
+    bill[u'entity'] = ns.RecordRef(u'vendor', internalId=vendor_id)
+    # Transaction Type
+    bill[u'postingPeriod'] = posting_period_id
+    bill[u'tranDate'] = "01/02/2021"
+    bill[u'dueDate'] = "01/03/2021"
+    bill[u'tranId'] = external_id
+    bill[u'currency'] = ns.RecordRef(type=u'salesTaxItem', internalId=currency_id)
+    bill[u'exchangerate'] = 1.1
+    bill[u'approvalStatus'] = {'internalId': approval_status_id}
+    bill[u'memo'] = "memo"
+
+    items = ns.items.get_all()
+    for item in items:
+        print item
+
+
+    expenses = []
+
+    vbi = ns.VendorBillItem()
+    vbi[u'account'] = cat_account_ref
+    vbi[u'amount'] = 10.0
+    vbi[u'category'] = category
+    vbi[u'department'] = dep_ref
+    vbi[u'class'] = class_ref
+    vbi[u'location'] = loc_ref
+    vbi[u'memo'] = "expense 1"
+    vbi[u'taxCode'] = ns.RecordRef(type=u'salesTaxItem', internalId=6)
+
+    expenses.append(vbi)
+
+    logger.debug(u'upserting bill %s', bill)
+    # print bill
+    record_ref = ns.upsert(bill)
+    logger.debug(u'record_ref = %s', record_ref)
+    assert record_ref[u'externalId'] == externalId, u'External ID does not match'
+
+    bill2 = ns.get(recordType=u'vendorBill', externalId=externalId)
+    logger.debug(u'bill2 = %s', unicode(bill2))
+    print bill2[u'userTotal']
+    assert (29.99 < bill2[u'userTotal']) and (bill2[u'userTotal'] < 36), u'Bill total is not 30.0'
 # def test_upsert_journal_entry(ns):
 #     vendor_ref = ns.RecordRef(type=u'vendor', internalId=get_vendor(ns).internalId)
 #     cat_account_ref = ns.RecordRef(type=u'account', internalId=get_category_account(ns).internalId)
