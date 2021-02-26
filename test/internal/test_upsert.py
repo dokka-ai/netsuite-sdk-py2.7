@@ -37,7 +37,7 @@ def get_currency(ns):
 def get_employee(ns):
     return ns.get(recordType=u'employee', internalId=u'5')
 
-def nottest_upsert_vendor_bill_expense(ns):
+def test_upsert_vendor_bill_expense(ns):
     vendor_ref = ns.RecordRef(type=u'vendor', internalId=7)
     category = ns.RecordRef(type=u'expenseCategory', internalId=1)
     cat_account_ref = ns.RecordRef(type=u'account', internalId=58)
@@ -94,7 +94,7 @@ def nottest_upsert_vendor_bill_expense(ns):
 
 
 def test_upsert_vendor_bill_items(ns):
-    external_id = datetime.date.today()
+    external_id = u'123456'
     vendor_id = u'7'
     currency_id = u'1'
     posting_period_id = u'128'
@@ -102,46 +102,50 @@ def test_upsert_vendor_bill_items(ns):
 
     bill = ns.VendorBill(externalId=external_id)
 
+    bill[u'externalId'] = external_id
     bill[u'entity'] = ns.RecordRef(u'vendor', internalId=vendor_id)
     # Transaction Type
     bill[u'postingPeriod'] = posting_period_id
-    bill[u'tranDate'] = "01/02/2021"
-    bill[u'dueDate'] = "01/03/2021"
+    bill[u'tranDate'] = datetime.date.today()
+    bill[u'dueDate'] = datetime.date.today()
     bill[u'tranId'] = external_id
     bill[u'currency'] = ns.RecordRef(type=u'salesTaxItem', internalId=currency_id)
     bill[u'exchangerate'] = 1.1
     bill[u'approvalStatus'] = {'internalId': approval_status_id}
     bill[u'memo'] = "memo"
 
-    items = ns.items.get_all()
-    for item in items:
-        print item
-
 
     expenses = []
 
     vbi = ns.VendorBillItem()
-    vbi[u'account'] = cat_account_ref
-    vbi[u'amount'] = 10.0
-    vbi[u'category'] = category
-    vbi[u'department'] = dep_ref
-    vbi[u'class'] = class_ref
-    vbi[u'location'] = loc_ref
-    vbi[u'memo'] = "expense 1"
+    vbi[u'item'] = ns.RecordRef(u'InventoryItem', internalId=vendor_id)
+    vbi[u'quantity'] = 1
+    vbi[u'units'] = 'PSC'
+    vbi[u'description'] = 'tabel description'
+    vbi[u'rate'] = 1
+    vbi[u'amount'] = vbi[u'quantity'] * vbi[u'rate']
     vbi[u'taxCode'] = ns.RecordRef(type=u'salesTaxItem', internalId=6)
+    vbi[u'tax1Amt'] = vbi[u'amount'] * 0.17
+    vbi[u'grossAmt'] = vbi[u'amount'] + vbi[u'tax1Amt']
+    vbi[u'location'] = ns.RecordRef(type=u'location', internalId=1)
+    vbi[u'class'] = ns.RecordRef(type=u'classification', internalId=1)
+    vbi[u'department'] = ns.RecordRef(type=u'department', internalId=1)
+
 
     expenses.append(vbi)
-
-    logger.debug(u'upserting bill %s', bill)
+    bill[u'itemList'] = ns.VendorBillItemList(item=expenses)
     # print bill
     record_ref = ns.upsert(bill)
-    logger.debug(u'record_ref = %s', record_ref)
-    assert record_ref[u'externalId'] == externalId, u'External ID does not match'
 
-    bill2 = ns.get(recordType=u'vendorBill', externalId=externalId)
+    logger.debug(u'record_ref = %s', record_ref)
+    # print record_ref[u'externalId']
+    # exit(1)
+    assert record_ref[u'externalId'] == external_id, u'External ID does not match'
+
+    bill2 = ns.get(recordType=u'vendorBill', externalId=external_id)
     logger.debug(u'bill2 = %s', unicode(bill2))
     print bill2[u'userTotal']
-    assert (29.99 < bill2[u'userTotal']) and (bill2[u'userTotal'] < 36), u'Bill total is not 30.0'
+    assert (0< bill2[u'userTotal']) and (bill2[u'userTotal'] < 2), u'Bill total is not 30.0'
 # def test_upsert_journal_entry(ns):
 #     vendor_ref = ns.RecordRef(type=u'vendor', internalId=get_vendor(ns).internalId)
 #     cat_account_ref = ns.RecordRef(type=u'account', internalId=get_category_account(ns).internalId)

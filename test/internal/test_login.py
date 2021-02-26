@@ -11,7 +11,7 @@ from netsuitesdk.internal.exceptions import NetSuiteLoginError
 
 logger = logging.getLogger(__name__)
 
-def test_login_disallowed():
+def nottest_login_disallowed():
     u"""
     Test if login method is supported. We will not use this often.
     """
