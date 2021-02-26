@@ -87,7 +87,8 @@ SEARCH_RECORD_TYPES = [
     u'vendor',
     u'vendorCategory',
     u'winLossReason',
-    u'salesTaxItem'
+    u'salesTaxItem',
+    u'InventoryItem'
 ]
 u""" As defined in `SearchRecordType` in https://webservices.netsuite.com/xsd/platform/v2017_2_0/coreTypes.xsd"""
 
