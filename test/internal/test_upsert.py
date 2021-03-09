@@ -118,7 +118,7 @@ def test_upsert_vendor_bill_items(ns):
     expenses = []
 
     vbi = ns.VendorBillItem()
-    vbi[u'item'] = ns.RecordRef(u'InventoryItem', internalId=u'8')
+    vbi[u'item'] = ns.RecordRef(internalId=u'8')
     vbi[u'quantity'] = 1
     vbi[u'units'] = 'PSC'
     vbi[u'description'] = 'tabel description'

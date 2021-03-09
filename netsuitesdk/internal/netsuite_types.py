@@ -79,7 +79,7 @@ COMPLEX_TYPES = {
         u'VendorCategory', u'VendorCategorySearch',
         u'SalesTaxItem', u'SalesTaxItemSearch',
         u'Item', u'ItemSearch',
-        u'UnitsType', u'UnitsTypeSearch'
+        u'UnitsType', u'UnitsTypeSearch',
     ],
 
     u'ns19': [
