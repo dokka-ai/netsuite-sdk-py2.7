@@ -11,7 +11,7 @@ class PurchaseOrder(ApiBase):
         pass
 
     def __init__(self, ns_client):
-        ApiBase.__init__(self, ns_client=ns_client, type_name=u'Transaction')
+        api = ApiBase.__init__(self, ns_client=ns_client, type_name=u'Transaction')
 
     def get(self):
         orders = []
@@ -21,3 +21,4 @@ class PurchaseOrder(ApiBase):
             if 'transactionNumber' not in order and 'availableVendorCredit' in order:
                 orders.append(order)
         return orders
+

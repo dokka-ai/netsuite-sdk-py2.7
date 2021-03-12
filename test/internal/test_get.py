@@ -12,7 +12,7 @@ def test_get_currency(ns):
 
 
 def test_get_vendor_bill(ns):
-    record = ns.get(recordType=u'vendorBill', internalId=u'4')
+    record = ns.get(recordType=u'vendorBill', internalId=u'1718')
     assert record, u'No vendor bill found'
 
 

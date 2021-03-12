@@ -78,7 +78,6 @@ COMPLEX_TYPES = {
         u'Subsidiary', u'SubsidiarySearch',
         u'VendorCategory', u'VendorCategorySearch',
         u'SalesTaxItem', u'SalesTaxItemSearch',
-        u'Item', u'ItemSearch',
         u'UnitsType', u'UnitsTypeSearch',
     ],
 

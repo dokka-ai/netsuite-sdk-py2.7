@@ -66,28 +66,10 @@
         }
     ],
     "memo": "Fyle ka Bill",
-    "class": {
-        "name": null,
-        "internalId": "1",
-        "externalId": null,
-        "type": "classification"
-    },
-    "location": {
-        "name": null,
-        "internalId": "1",
-        "externalId": null,
-        "type": "location"
-    },
     "entity": {
         "name": null,
         "internalId": "7",
         "externalId": null,
         "type": "vendor"
-    },
-    "department": {
-        "name": null,
-        "internalId": "1",
-        "externalId": null,
-        "type": "department"
     }
 }

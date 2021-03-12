@@ -12,6 +12,10 @@ class ApiBase:
         self.ns_client = ns_client
         self.type_name = type_name
 
+    def search(self):
+        pass
+        # self.ns_client.
+
     def get_all(self):
         return list(self.get_all_generator())
 

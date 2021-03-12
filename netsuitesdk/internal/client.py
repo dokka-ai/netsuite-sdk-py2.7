@@ -107,7 +107,7 @@ class NetSuiteClient(object):
                     )
                     complex_type = self._client.get_type(verbose_type_name)
                 except ZeepLookupError:
-                    self.logger.warning(u'LookupError: Did not find complex type {}'.format(type_name))
+                    self.logger.warning(u'LookupError: Did not find complex type {}'.format(verbose_type_name))
                 else:
                     setattr(self, type_name, complex_type)
                     self._complex_types[type_name] = complex_type

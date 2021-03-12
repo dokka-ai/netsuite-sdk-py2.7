@@ -5,7 +5,7 @@ import os
 
 logger = logging.getLogger(__name__)
 
-def test_get(nc):
+def nottest_get(nc):
     data = next(nc.journal_entries.get_all_generator())
     logger.debug('data = %s', data)
     assert data, 'get all generator didnt work'
@@ -19,7 +19,7 @@ def test_get(nc):
     assert data['externalId'] == 'JE_04', 'No object with externalId'
     assert currency['name'] == 'USA', 'Currency does not match'
 
-def test_post(nc):
+def nottest_post(nc):
     filename = os.getenv('NS_ACCOUNT').lower() + '.json'
     with open('./test/integration/data/journal_entries/' + filename) as oj:
         s = oj.read()
