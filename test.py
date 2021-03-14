@@ -18,7 +18,7 @@ ns.connect_tba(consumer_key=NS_CONSUMER_KEY,
                token_secret=NS_TOKEN_SECRET,
                signature_algorithm=u'HMAC-SHA1')
 
-external_id = u'123463'
+external_id = u'123467'
 vendor_id = u'7'
 currency_id = u'1'
 posting_period_id = u'107'
@@ -60,7 +60,7 @@ bill[u'itemList'] = ns.VendorBillItemList(item=expenses)
 
 purchaseOrder = ns.RecordRef(type='purchaseOrder', internalId=112, name="MyName")
 
-bill.purchaseOrderList = [purchaseOrder]
+bill.purchaseOrderList = ns.RecordRefList([purchaseOrder])
 
 # internalId
 # externalId

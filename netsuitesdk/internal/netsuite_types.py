@@ -11,7 +11,7 @@ COMPLEX_TYPES = {
         u'Passport',
         u'RecordList',
         u'RecordRef',
-        u'RecordRefList'
+        u'RecordRefList',
         u'ListOrRecordRef',
         u'SearchResult',
         u'SearchStringField',
