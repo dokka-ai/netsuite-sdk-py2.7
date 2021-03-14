@@ -501,6 +501,37 @@ class NetSuiteClient(object):
             exc = self._request_error(u'upsert', detail=status[u'statusDetail'][0])
             raise exc
 
+    def add(self, record):
+        u"""
+        Add an object of type recordType with given externalId..
+        If a record of specified type with matching externalId already
+        exists, it is updated.
+
+        Usage example:
+            customer = self.Customer()
+            customer.externalId = 'customer_id'
+            customer.companyName = 'Test Inc.'
+            customer.email = 'test@example.com'
+            self.upsert(record=customer)
+
+        :param str recordType: the complex type (e.g. either 'Customer' or 'vendors')
+        :param str externalId: str specifying the record to be retrieved
+        :return: a reference to the newly created or updated record (in case of success)
+        :rtype: RecordRef
+        """
+
+        response = self.request(u'add', record=record)
+        response = response.body.writeResponse
+        status = response.status
+        if status.isSuccess:
+            record_ref = response[u'baseRef']
+            self.logger.debug(u'Successfully updated record of type {type}, internalId: {internalId}, externalId: {externalId}'.format(
+                    type=record_ref[u'type'], internalId=record_ref[u'internalId'], externalId=record_ref[u'externalId']))
+            return record_ref
+        else:
+            exc = self._request_error(u'add', detail=status[u'statusDetail'][0])
+            raise exc
+
     # def upsertList(self, records):
     #     """
     #     Add objects of type recordType with given externalId..

@@ -11,6 +11,7 @@ COMPLEX_TYPES = {
         u'Passport',
         u'RecordList',
         u'RecordRef',
+        u'RecordRefList'
         u'ListOrRecordRef',
         u'SearchResult',
         u'SearchStringField',
@@ -37,8 +38,8 @@ COMPLEX_TYPES = {
         u'PartnerInfo',
         u'ReadResponse',
         u'SearchPreferences',
-        u'SearchResponse'
-
+        u'SearchResponse',
+        u'PurchaseOrderList'
     ],
 
     # https://webservices.netsuite.com/xsd/platform/v2017_2_0/common.xsd
@@ -99,6 +100,7 @@ COMPLEX_TYPES = {
         u'VendorPaymentCredit',
         u'VendorPaymentCreditList',
         u'VendorPaymentApply',
+        u'PurchaseOrderItem'
     ],
 
 

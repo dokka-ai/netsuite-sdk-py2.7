@@ -28,8 +28,9 @@ class AccountingPeriod(ApiBase):
 
 	def get_periods(self):
 		_p = {}
-		for period in self.get_all():
-			if not period['isQuarter'] and not period['isYear']:
+		_periods = self.get_all()
+		for period in _periods:
+			if not period['isQuarter'] and not period['isYear'] and not period['closed']:
 				if period['parent']['name'] not in _p:
 					_p.setdefault(period['parent']['name'], [])
 				_p[period['parent']['name']].append((period['internalId'], period['periodName']))
