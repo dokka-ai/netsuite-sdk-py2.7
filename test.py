@@ -58,9 +58,9 @@ vbi[u'department'] = ns.RecordRef(type=u'department', internalId=1)
 expenses.append(vbi)
 bill[u'itemList'] = ns.VendorBillItemList(item=expenses)
 
-purchaseOrder = ns.RecordRef(type='purchaseOrder', internalId=112, name="MyName")
+purchaseOrder = ns.RecordRef(type='purchaseOrder', internalId=112)
 
-bill.purchaseOrderList = [purchaseOrder]
+bill.purchaseOrderList = ns.RecordRefList([purchaseOrder])
 
 # internalId
 # externalId
@@ -68,9 +68,6 @@ bill.purchaseOrderList = [purchaseOrder]
 # name
 
 expenses.append(vbi)
-
-purchaseOrderList = [purchaseOrder]
-bill.purchaseOrderList = purchaseOrderList
 
 # bill['purchaseOrderList'] =ns.RecordRefList(type="purchaseOrderList", purchaseOrder=purchaseOrderList)
 # print bill
