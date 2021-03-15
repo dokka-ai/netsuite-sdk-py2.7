@@ -552,12 +552,12 @@ class NetSuiteClient(object):
         """
 
         response = self.request(u'initialize', initializeRecord=record)
-        response = response.body.writeResponse
+        response = response.body.readResponse
         status = response.status
         if status.isSuccess:
-            record_ref = response[u'baseRef']
-            self.logger.debug(u'Successfully updated record of type {type}, internalId: {internalId}, externalId: {externalId}'.format(
-                    type=record_ref[u'type'], internalId=record_ref[u'internalId'], externalId=record_ref[u'externalId']))
+            record_ref = response.record
+            # self.logger.debug(u'Successfully updated record of type {type}, internalId: {internalId}, externalId: {externalId}'.format(
+            #         internalId=record_ref[u'internalId'], externalId=record_ref[u'externalId']))
             return record_ref
         else:
             exc = self._request_error(u'initialize', detail=status[u'statusDetail'][0])
