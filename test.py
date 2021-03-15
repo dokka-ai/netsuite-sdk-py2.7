@@ -10,17 +10,23 @@ NS_CONSUMER_SECRET = os.getenv(u'NS_CONSUMER_SECRET')
 NS_TOKEN_KEY = os.getenv(u'NS_TOKEN_KEY')
 NS_TOKEN_SECRET = os.getenv(u'NS_TOKEN_SECRET')
 
-ns = NetSuiteConnection(account=NS_ACCOUNT,
-                        consumer_key=NS_CONSUMER_KEY,
-                        consumer_secret=NS_CONSUMER_SECRET,
-                        token_key=NS_TOKEN_KEY,
-                        token_secret=NS_TOKEN_SECRET)
+# ns = NetSuiteConnection(account=NS_ACCOUNT,
+#                         consumer_key=NS_CONSUMER_KEY,
+#                         consumer_secret=NS_CONSUMER_SECRET,
+#                         token_key=NS_TOKEN_KEY,
+#                         token_secret=NS_TOKEN_SECRET)
 
-items = ns.items.get_all()
-
-print items
-
-exit(1)
+ns = NetSuiteClient(account=NS_ACCOUNT)
+ns.connect_tba(consumer_key=NS_CONSUMER_KEY,
+               consumer_secret=NS_CONSUMER_SECRET,
+               token_key=NS_TOKEN_KEY,
+               token_secret=NS_TOKEN_SECRET,
+               signature_algorithm=u'HMAC-SHA1')
+# items = ns.accountingPeriod.get_all()
+#
+# print items
+#
+# exit(1)
 
 external_id = u'123467'
 vendor_id = u'7'
@@ -78,6 +84,18 @@ bill.purchaseOrderList = purchaseOrderList
 
 # bill['purchaseOrderList'] =ns.RecordRefList(type="purchaseOrderList", purchaseOrder=purchaseOrderList)
 # print bill
-record_ref = ns.add(bill)
+# record_ref = ns.add(bill)
+#
+# print record_ref
 
-print record_ref
+purchaseOrder1 = ns.RecordRef(type='purchaseOrder', internalId=3325)
+purchaseOrder2 = ns.RecordRef(type='purchaseOrder', internalId=3326)
+
+record = ns.InitializeRefList([
+    ns.VendorBill(),
+        ns.InitializeRef(type='purchaseOrder', internalId=3325),
+        ns.InitializeRef(type='purchaseOrder', internalId=3326)
+    ])
+
+print ns.initialize(record)
+# print record

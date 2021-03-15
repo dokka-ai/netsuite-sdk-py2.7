@@ -12,6 +12,10 @@ COMPLEX_TYPES = {
         u'RecordList',
         u'RecordRef',
         u'RecordRefList',
+        u'initializeRecord',
+        u'InitializeRefList',
+        u'InitializeRef',
+
         u'ListOrRecordRef',
         u'SearchResult',
         u'SearchStringField',
@@ -39,7 +43,8 @@ COMPLEX_TYPES = {
         u'ReadResponse',
         u'SearchPreferences',
         u'SearchResponse',
-        u'PurchaseOrderList'
+        u'PurchaseOrderList',
+        # u'InitializeRefArray',
     ],
 
     # https://webservices.netsuite.com/xsd/platform/v2017_2_0/common.xsd
