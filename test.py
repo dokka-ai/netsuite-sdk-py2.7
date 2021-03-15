@@ -91,11 +91,9 @@ bill.purchaseOrderList = purchaseOrderList
 purchaseOrder1 = ns.RecordRef(type='purchaseOrder', internalId=3325)
 purchaseOrder2 = ns.RecordRef(type='purchaseOrder', internalId=3326)
 
-record = ns.InitializeRefList([
-    ns.VendorBill(),
-        ns.InitializeRef(type='purchaseOrder', internalId=3325),
-        ns.InitializeRef(type='purchaseOrder', internalId=3326)
-    ])
+record = ns.InitializeRecord()
+record.type = 'vendorBill'
+record.referenceList = ns.InitializeRefList([purchaseOrder1, purchaseOrder2])
 
 print ns.initialize(record)
 # print record

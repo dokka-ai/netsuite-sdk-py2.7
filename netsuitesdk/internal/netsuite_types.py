@@ -12,7 +12,7 @@ COMPLEX_TYPES = {
         u'RecordList',
         u'RecordRef',
         u'RecordRefList',
-        u'initializeRecord',
+        u'InitializeRecord',
         u'InitializeRefList',
         u'InitializeRef',
 
