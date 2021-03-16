@@ -68,7 +68,7 @@ vbi[u'department'] = ns.RecordRef(type=u'department', internalId=1)
 expenses.append(vbi)
 bill[u'itemList'] = ns.VendorBillItemList(item=expenses)
 
-purchaseOrder = ns.RecordRef(type='purchaseOrder', internalId=112, name="MyName")
+purchaseOrder = ns.RecordRef(type='purchaseOrder', internalId=3326, name="MyName")
 
 bill.purchaseOrderList = ns.RecordRefList([purchaseOrder])
 
@@ -94,5 +94,26 @@ record = ns.InitializeRecord()
 record.type = 'vendorBill'
 record.referenceList = ns.InitializeRefList([purchaseOrder2])
 
-print ns.initialize(record)
-# print record
+record = ns.initialize(record)
+print record
+del record['exchangeRate']
+
+fields = [u'item', u'quantity', u'units', u'description', u'rate', u'amount', u'taxCode', u'orderDoc', u'orderLine'
+         u'tax1Amt', u'grossAmt', u'department', u'class', u'location', u'internalId', u'externalId']
+
+new_items = []
+for item in record['itemList']['item']:
+    new_item = {}
+    for field in item:
+        # if field in fields:
+        if field == "quantity":
+            new_item.setdefault(field, 10)
+        elif field != 'taxRate1':
+            new_item.setdefault(field, item[field])
+    new_items.append(new_item)
+
+# record['purchaseOrderList'] = ns.RecordRefList([purchaseOrder])
+record['itemList']['item'] = new_items
+record['externalId'] = "138500"
+r2 = ns.upsert(record)
+print r2
