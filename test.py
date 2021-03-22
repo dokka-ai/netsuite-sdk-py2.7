@@ -22,11 +22,18 @@ ns.connect_tba(consumer_key=NS_CONSUMER_KEY,
                token_key=NS_TOKEN_KEY,
                token_secret=NS_TOKEN_SECRET,
                signature_algorithm=u'HMAC-SHA1')
+# pdf file
+data = open('754940_320_1693339.pdf', 'r').read()
 
-
-file = ns.File(name="my_file.jpg", fileType="_PDF", content="wwww", folder=ns.RecordRef(type="folder", internalId="-12"))
+file = ns.File(name="my_file.pdf", fileType="_PDF", content=data, folder=ns.RecordRef(type="folder", internalId="-12"))
 a = ns.add(file)
-attach_file = ns.AttachBasicReference(attachTo=4029, attachedRecord=a.internalId)
+attach_file = ns.AttachBasicReference()
+attach_file.attachTo = ns.RecordRef()
+attach_file.attachTo.internalId = 4029
+attach_file.attachTo.type = "vendorBill"
+attach_file.attachedRecord = ns.RecordRef()
+attach_file.attachedRecord.internalId = a.internalId
+attach_file.attachedRecord.type = "file"
 p = ns.attach(attach_file)
 print p
 print a
