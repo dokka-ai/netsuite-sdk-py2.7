@@ -24,11 +24,12 @@ ns.connect_tba(consumer_key=NS_CONSUMER_KEY,
                signature_algorithm=u'HMAC-SHA1')
 
 
-file = ns.RecordRef(type=u'File', name="my_file.jpg", fileType="_PDF", content="wwww")
-
-
-
-
+file = ns.File(name="my_file.jpg", fileType="_PDF", content="wwww", folder=ns.RecordRef(type="folder", internalId="-12"))
+a = ns.add(file)
+attach_file = ns.AttachBasicReference(attachTo=4029, attachedRecord=a.internalId)
+p = ns.attach(attach_file)
+print p
+print a
 exit(1)
 bill = ns.VendorBill(externalId=external_id)
 

@@ -15,7 +15,7 @@ COMPLEX_TYPES = {
         u'InitializeRecord',
         u'InitializeRefList',
         u'InitializeRef',
-
+        u'AttachBasicReference',
         u'ListOrRecordRef',
         u'SearchResult',
         u'SearchStringField',
