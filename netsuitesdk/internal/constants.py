@@ -92,7 +92,7 @@ SEARCH_RECORD_TYPES = [
     u'employee',
     u'purchaseOrder',
     u'taxPeriod',
-    u'term'
+    u'term',
 ]
 u""" As defined in `SearchRecordType` in https://webservices.netsuite.com/xsd/platform/v2017_2_0/coreTypes.xsd"""
 

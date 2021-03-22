@@ -145,7 +145,7 @@ COMPLEX_TYPES = {
         u'FolderSearch',
         u'Folder',
         u'File',
-        u'FileSearch'
+        u'FileSearch',
     ],
 }
 

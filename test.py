@@ -10,36 +10,26 @@ NS_CONSUMER_SECRET = os.getenv(u'NS_CONSUMER_SECRET')
 NS_TOKEN_KEY = os.getenv(u'NS_TOKEN_KEY')
 NS_TOKEN_SECRET = os.getenv(u'NS_TOKEN_SECRET')
 
-ns = NetSuiteConnection(account=NS_ACCOUNT,
-                        consumer_key=NS_CONSUMER_KEY,
-                        consumer_secret=NS_CONSUMER_SECRET,
-                        token_key=NS_TOKEN_KEY,
-                        token_secret=NS_TOKEN_SECRET)
+# ns = NetSuiteConnection(account=NS_ACCOUNT,
+#                         consumer_key=NS_CONSUMER_KEY,
+#                         consumer_secret=NS_CONSUMER_SECRET,
+#                         token_key=NS_TOKEN_KEY,
+#                         token_secret=NS_TOKEN_SECRET)
 
-# ns = NetSuiteClient(account=NS_ACCOUNT)
-# ns.connect_tba(consumer_key=NS_CONSUMER_KEY,
-#                consumer_secret=NS_CONSUMER_SECRET,
-#                token_key=NS_TOKEN_KEY,
-#                token_secret=NS_TOKEN_SECRET,
-#                signature_algorithm=u'HMAC-SHA1')
-# items = ns.accountingPeriod.get_all()
-#
-# print items
-#
-# exit(1)
+ns = NetSuiteClient(account=NS_ACCOUNT)
+ns.connect_tba(consumer_key=NS_CONSUMER_KEY,
+               consumer_secret=NS_CONSUMER_SECRET,
+               token_key=NS_TOKEN_KEY,
+               token_secret=NS_TOKEN_SECRET,
+               signature_algorithm=u'HMAC-SHA1')
 
-terms = ns.terms.get_all()
-for term in terms:
-    print term['daysUntilNetDue'], term['internalId']
-print terms
+
+file = ns.RecordRef(type=u'File', name="my_file.jpg", fileType="_PDF", content="wwww")
+
+
+
+
 exit(1)
-
-external_id = u'123467'
-vendor_id = u'7'
-currency_id = u'1'
-posting_period_id = u'107'
-approval_status_id = u'1'
-
 bill = ns.VendorBill(externalId=external_id)
 
 # bill[u'externalId'] = external_id
