@@ -583,10 +583,10 @@ class NetSuiteClient(object):
         """
 
         response = self.request(u'attach', attachReference=record)
-        response = response.body.readResponse
+        response = response.body.writeResponse
         status = response.status
         if status.isSuccess:
-            record_ref = response.record
+            record_ref = response
             # self.logger.debug(u'Successfully updated record of type {type}, internalId: {internalId}, externalId: {externalId}'.format(
             #         internalId=record_ref[u'internalId'], externalId=record_ref[u'externalId']))
             return record_ref

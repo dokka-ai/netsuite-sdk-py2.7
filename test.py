@@ -23,9 +23,9 @@ ns.connect_tba(consumer_key=NS_CONSUMER_KEY,
                token_secret=NS_TOKEN_SECRET,
                signature_algorithm=u'HMAC-SHA1')
 # pdf file
-data = open('754940_320_1693339.pdf', 'r').read()
+data = open('google1.pdf', 'r').read()
 
-file = ns.File(name="my_file.pdf", fileType="_PDF", content=data, folder=ns.RecordRef(type="folder", internalId="-12"))
+file = ns.File(name="google1.pdf", fileType="_PDF", content=data, folder=ns.RecordRef(type="folder", internalId="-12"))
 a = ns.add(file)
 attach_file = ns.AttachBasicReference()
 attach_file.attachTo = ns.RecordRef()
