@@ -16,6 +16,10 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         token_key=NS_TOKEN_KEY,
                         token_secret=NS_TOKEN_SECRET)
 
+
+a = ns.vendor_bills.get_vendor_and_txn_id('110', '12345')
+pass
+
 # ns = NetSuiteClient(account=NS_ACCOUNT)
 # ns.connect_tba(consumer_key=NS_CONSUMER_KEY,
 #                consumer_secret=NS_CONSUMER_SECRET,
