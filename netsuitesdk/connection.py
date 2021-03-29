@@ -24,6 +24,7 @@ from .api.inventory_item import InventoryItem
 from .api.unitstype import UnitsType
 from .api.purchase_order import PurchaseOrder
 from .api.terms import Terms
+from .api.currencyRate import CurrencyRate
 from .internal.client import NetSuiteClient
 from .internal.utils import PaginatedSearch
 
@@ -63,6 +64,7 @@ class NetSuiteConnection(object):
         self.units = UnitsType(ns_client)
         self.purchase_orders = PurchaseOrder(ns_client)
         self.terms = Terms(ns_client)
+        self.currencyRate = CurrencyRate(ns_client)
         self.ns = ns_client
 
     def get_record_by_type(self, _type, internal_id):
