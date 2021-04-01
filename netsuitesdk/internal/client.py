@@ -420,6 +420,17 @@ class NetSuiteClient(object):
             setattr(basic_search, key, value)
         return basic_search
 
+    def row_basic_search_factory(self, type_name, **kwargs):
+        _type_name = type_name[0].lower() + type_name[1:]
+        if not _type_name in SEARCH_RECORD_TYPES:
+            raise NetSuiteTypeError(u'{} is not a searchable NetSuite type!'.format(type_name))
+        basic_search_cls_name = u'{}SearchRowBasic'.format(type_name)
+        basic_search_cls = self.get_complex_type(basic_search_cls_name)
+        basic_search = basic_search_cls()
+        for key, value in kwargs.items():
+            setattr(basic_search, key, value)
+        return basic_search
+
     def search(self, searchRecord):
         u"""
         Make a search request to retrieve an object of type recordType

@@ -19,7 +19,11 @@ COMPLEX_TYPES = {
         u'ListOrRecordRef',
         u'SearchResult',
         u'SearchStringField',
+        u'SearchBooleanField',
+        u'SearchDateField',
         u'SearchMultiSelectField',
+        u'SearchColumnSelectField',
+        u'SearchColumnDateField',
         u'Status',
         u'StatusDetail',
         u'TokenPassport',
@@ -60,8 +64,10 @@ COMPLEX_TYPES = {
         u'FolderSearchBasic',
         u'FileSearchBasic',
         u'CustomRecordSearchBasic',
-        u'CustomListSearchBasic'
-
+        u'CustomListSearchBasic',
+        u'AccountingPeriodSearchBasic',
+        u'CurrencyRateSearchBasic',
+        u'CurrencyRateSearchRowBasic'
     ],
 
     # urn:relationships.lists.webservices.netsuite.com

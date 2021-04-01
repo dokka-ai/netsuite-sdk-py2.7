@@ -2,6 +2,8 @@ from __future__ import absolute_import
 from .base import ApiBase
 import logging
 
+from ..internal.utils import PaginatedSearch
+
 logger = logging.getLogger(__name__)
 
 
@@ -45,3 +47,21 @@ class AccountingPeriod(ApiBase):
 				periods.append({'internalId': i[0], 'name': ' ' + i[1]})
 
 		return periods
+
+	def get_all(self):
+		_false = self.ns_client.SearchBooleanField(searchValue=False)
+		basic_search = self.ns_client.basic_search_factory(
+			u'AccountingPeriod',
+			isInactive=_false,
+			isQuarter=_false,
+			isYear=_false,
+			apLocked=_false,
+			allLocked=_false,
+			closed=_false,
+		)
+		paginated_search = PaginatedSearch(client=self.ns_client,
+		                                   type_name='AccountingPeriod',
+		                                   basic_search=basic_search,
+		                                   pageSize=50)
+
+		return list(self._paginated_search_to_generator(paginated_search=paginated_search))
