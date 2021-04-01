@@ -17,7 +17,8 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         token_secret=NS_TOKEN_SECRET)
 
 
-a = ns.vendor_bills.get_vendor_and_txn_id('110', '12345')
+a = ns.vendor_bills.get_vendor_and_txn_id('139', '10574')
+print a
 pass
 
 # ns = NetSuiteClient(account=NS_ACCOUNT)

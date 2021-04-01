@@ -42,7 +42,7 @@ class VendorBills(ApiBase):
                                            type_name=u'Transaction',
                                            basic_search=basic_search,
                                            pageSize=20)
-        return self._paginated_search_to_generator(paginated_search=paginated_search)
+        return list(self._paginated_search_to_generator(paginated_search=paginated_search))
 
     def post(self, data):
         assert data[u'externalId'], u'missing external id'
