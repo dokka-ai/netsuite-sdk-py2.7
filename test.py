@@ -17,12 +17,10 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         token_secret=NS_TOKEN_SECRET)
 
 
-b = ns.currencyRate.get_all()
+b = ns.items.get_all()
 for i in b:
-    print i['internalId'], i['effectiveDate'], i['exchangeRate']
-a = ns.currencyRate.get_by_date(datetime.datetime(2021, 03, 20), 1, 5)
-
-print len(a)
+    print i
+print b
 exit(1)
 # ns = NetSuiteClient(account=NS_ACCOUNT)
 # ns.connect_tba(consumer_key=NS_CONSUMER_KEY,

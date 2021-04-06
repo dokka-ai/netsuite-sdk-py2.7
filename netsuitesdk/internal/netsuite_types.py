@@ -47,7 +47,6 @@ COMPLEX_TYPES = {
         u'ReadResponse',
         u'SearchPreferences',
         u'SearchResponse',
-        u'PurchaseOrderList',
         # u'InitializeRefArray',
     ],
 
@@ -90,7 +89,7 @@ COMPLEX_TYPES = {
         u'Subsidiary', u'SubsidiarySearch',
         u'VendorCategory', u'VendorCategorySearch',
         u'SalesTaxItem', u'SalesTaxItemSearch',
-        u'Item', u'ItemSearch',
+        u'ItemSearch',
         u'UnitsType', u'UnitsTypeSearch',
         u'Term', u'TermSearch',
         u'CurrencyRate', u'CurrencyRateSearch',

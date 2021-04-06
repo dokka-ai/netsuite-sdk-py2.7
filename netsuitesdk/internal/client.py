@@ -87,7 +87,7 @@ class NetSuiteClient(object):
         self._is_authenticated = False
         self.set_search_preferences()
 
-    def set_search_preferences(self, page_size = 5, return_search_columns = False):
+    def set_search_preferences(self, page_size = 100, return_search_columns = False):
         self._search_preferences = self.SearchPreferences(
             bodyFieldsOnly=False,
             pageSize=page_size,

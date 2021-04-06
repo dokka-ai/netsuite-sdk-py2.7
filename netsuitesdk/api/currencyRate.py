@@ -15,16 +15,16 @@ class CurrencyRate(ApiBase):
         base_currency = self.ns_client.RecordRef(internalId=base_currency, type="currency")
         transaction_currency = self.ns_client.RecordRef(internalId=transaction_currency, type="currency")
 
-        basic_search = self.ns_client.row_basic_search_factory(
+        basic_search = self.ns_client.basic_search_factory(
             u'CurrencyRate',
-            effectiveDate=self.ns_client.SearchColumnDateField(searchValue=search_date),
-            baseCurrency=self.ns_client.SearchColumnSelectField(searchValue=base_currency),
-            transactionCurrency=self.ns_client.SearchColumnSelectField(searchValue=transaction_currency),
+            effectiveDate=self.ns_client.SearchDateField(searchValue=search_date, operator="on"),
+            baseCurrency=self.ns_client.SearchMultiSelectField(searchValue=base_currency, operator="anyOf"),
+            transactionCurrency=self.ns_client.SearchMultiSelectField(searchValue=transaction_currency, operator="anyOf"),
         )
 
         paginated_search = PaginatedSearch(client=self.ns_client,
                                            type_name=u'CurrencyRate',
-                                           search_record=self.ns_client.CurrencyRateSearchBasic(),
+                                           # search_record=self.ns_client.CurrencyRateSearchBasic(),
                                            basic_search=basic_search,
                                            pageSize=20)
         return list(self._paginated_search_to_generator(paginated_search=paginated_search))
