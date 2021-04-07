@@ -75,6 +75,20 @@ class ApiBase:
         ps = PaginatedSearch(client=self.ns_client, type_name=self.type_name, pageSize=page_size)
         return self._paginated_search_to_generator(paginated_search=ps)
 
+    def search_all_advanced(self, page_size):
+        search_record = self.ns_client.advanced_search_factory(self.type_name)
+        item_search_row = self.ns_client.ItemSearchRow()
+        item_search_row.basic = self.ns_client.ItemSearchRowBasic()
+        item_search_row.basic.internalId = self.ns_client.SearchColumnSelectField()
+        item_search_row.basic.quantityAvailable = self.ns_client.SearchColumnDoubleField()
+        item_search_row.basic.weight = self.ns_client.SearchColumnDoubleField()
+        search_record.columns = item_search_row
+        ps = PaginatedSearch(client=self.ns_client,
+                             search_record=search_record,
+                             type_name=self.type_name,
+                             pageSize=page_size)
+        return self._paginated_search_to_generator(paginated_search=ps)
+
     def _get_all(self):
         records = self.ns_client.getAll(recordType=self.type_name)
         return self._serialize_array(records)

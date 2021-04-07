@@ -2,6 +2,7 @@ from netsuitesdk.connection import NetSuiteConnection
 import os
 import datetime
 
+from time import time
 from netsuitesdk.internal.client import NetSuiteClient
 
 NS_ACCOUNT = os.getenv(u'NS_ACCOUNT')
@@ -16,6 +17,22 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         token_key=NS_TOKEN_KEY,
                         token_secret=NS_TOKEN_SECRET)
 
+start = time()
+ns.client.set_search_preferences(return_search_columns=True)
+a = ns.items.get_all(100)
+print a
+print len(a)
+print "*************"
+a = list(ns.items.search_all_advanced(100))
+print a
+print time() - start
+
+# start = time()
+# a = list(ns.vendor_bills.get_all_generator())
+# print a
+# print time() - start
+
+exit(1)
 
 b = ns.items.get_all()
 for i in b:

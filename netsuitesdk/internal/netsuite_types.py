@@ -22,6 +22,7 @@ COMPLEX_TYPES = {
         u'SearchBooleanField',
         u'SearchDateField',
         u'SearchMultiSelectField',
+        u'SearchColumnDoubleField',
         u'SearchColumnSelectField',
         u'SearchColumnDateField',
         u'Status',
@@ -66,7 +67,9 @@ COMPLEX_TYPES = {
         u'CustomListSearchBasic',
         u'AccountingPeriodSearchBasic',
         u'CurrencyRateSearchBasic',
-        u'CurrencyRateSearchRowBasic'
+        u'CurrencyRateSearchRowBasic',
+        u'ItemSearchRowBasic',
+        u'AccountSearchRowBasic'
     ],
 
     # urn:relationships.lists.webservices.netsuite.com
@@ -90,9 +93,13 @@ COMPLEX_TYPES = {
         u'VendorCategory', u'VendorCategorySearch',
         u'SalesTaxItem', u'SalesTaxItemSearch',
         u'ItemSearch',
+        u'ItemSearchAdvanced',
+        u'ItemSearchRow',
         u'UnitsType', u'UnitsTypeSearch',
         u'Term', u'TermSearch',
         u'CurrencyRate', u'CurrencyRateSearch',
+        u'AccountSearchAdvanced',
+        u'AccountSearchRow',
     ],
 
     u'ns19': [

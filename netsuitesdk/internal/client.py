@@ -420,6 +420,17 @@ class NetSuiteClient(object):
             setattr(basic_search, key, value)
         return basic_search
 
+    def advanced_search_factory(self, type_name, **kwargs):
+        _type_name = type_name[0].lower() + type_name[1:]
+        if _type_name not in SEARCH_RECORD_TYPES:
+            raise NetSuiteTypeError(u'{} is not a searchable NetSuite type!'.format(type_name))
+        advanced_search_cls_name = u'{}SearchAdvanced'.format(type_name)
+        advanced_search_cls = self.get_complex_type(advanced_search_cls_name)
+        advanced_search = advanced_search_cls()
+        for key, value in kwargs.items():
+            setattr(advanced_search, key, value)
+        return advanced_search
+
     def row_basic_search_factory(self, type_name, **kwargs):
         _type_name = type_name[0].lower() + type_name[1:]
         if not _type_name in SEARCH_RECORD_TYPES:
