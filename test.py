@@ -23,7 +23,7 @@ a = ns.items.get_all(100)
 print a
 print len(a)
 print "*************"
-a = list(ns.items.search_all_advanced(100))
+a = list(ns.accounts.search_all_advanced(100))
 print a
 print time() - start
 

@@ -19,7 +19,7 @@ from .api.custom_lists import CustomLists
 from .api.custom_records import CustomRecords
 from .api.vendor_payments import VendorPayments
 from .api.accountingPeriod import AccountingPeriod
-from .api.taxtype import TaxType
+from .api.taxtype import TaxType, TaxGroup
 from .api.inventory_item import InventoryItem
 from .api.unitstype import UnitsType
 from .api.purchase_order import PurchaseOrder
@@ -60,6 +60,7 @@ class NetSuiteConnection(object):
         self.vendor_payments = VendorPayments(ns_client)
         self.accountingPeriod = AccountingPeriod(ns_client)
         self.taxType = TaxType(ns_client)
+        self.taxGroup = TaxGroup(ns_client)
         self.items = InventoryItem(ns_client)
         self.units = UnitsType(ns_client)
         self.purchase_orders = PurchaseOrder(ns_client)

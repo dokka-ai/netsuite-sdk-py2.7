@@ -13,3 +13,10 @@ class TaxType(ApiBase):
     def __init__(self, ns_client):
         ApiBase.__init__(self, ns_client=ns_client, type_name=u'SalesTaxItem')
 
+
+class TaxGroup(ApiBase):
+    def post(self, data):
+        pass
+
+    def __init__(self, ns_client):
+        ApiBase.__init__(self, ns_client=ns_client, type_name=u'TaxGroup')

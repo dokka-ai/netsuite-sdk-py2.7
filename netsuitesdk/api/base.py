@@ -75,19 +75,76 @@ class ApiBase:
         ps = PaginatedSearch(client=self.ns_client, type_name=self.type_name, pageSize=page_size)
         return self._paginated_search_to_generator(paginated_search=ps)
 
-    def search_all_advanced(self, page_size):
+    def advanced_search(self, page_size, basic_columns, joins=None):
+        """
+        :param page_size:
+        :param list basic_columns:
+        :param list joins:
+        """
+        if not joins:
+            joins = []
+
         search_record = self.ns_client.advanced_search_factory(self.type_name)
-        item_search_row = self.ns_client.ItemSearchRow()
-        item_search_row.basic = self.ns_client.ItemSearchRowBasic()
-        item_search_row.basic.internalId = self.ns_client.SearchColumnSelectField()
-        item_search_row.basic.quantityAvailable = self.ns_client.SearchColumnDoubleField()
-        item_search_row.basic.weight = self.ns_client.SearchColumnDoubleField()
-        search_record.columns = item_search_row
+        search_row = self.ns_client.search_row_factory(self.type_name)
+        search_row.basic = self.ns_client.search_row_basic_factory(self.type_name)
+
+        columns_types = dict(search_row.basic.__class__._xsd_type.elements)
+        for column in basic_columns:
+            if isinstance(column, tuple):
+                column, _column_type = column
+            column_type = columns_types[column].type()
+            setattr(search_row.basic, column, column_type)
+
+        # join_types = dict(search_row.__class__._xsd_type.elements)
+        # for join, join_fields in joins:
+        #     join_type = join_types[join].type
+        #     join_type_dict = dict(join_type.elements)
+        #     join_instance = join_type()
+        #     for join_field in join_fields:
+        #         join_field_type = join_type_dict[join_field]
+        #         setattr(join_instance, join_field, join_field_type())
+        #
+        #     setattr(search_row, join, join_instance)
+
+        search_record.columns = search_row
+
         ps = PaginatedSearch(client=self.ns_client,
                              search_record=search_record,
                              type_name=self.type_name,
                              pageSize=page_size)
-        return self._paginated_search_to_generator(paginated_search=ps)
+        for result_search_record in self._paginated_search_to_generator(paginated_search=ps):
+            record = {}
+            for column in basic_columns:
+                _column_type = None
+                if isinstance(column, tuple):
+                    column, _column_type = column
+
+                if not result_search_record['basic']:
+                    continue
+
+                column_result = result_search_record['basic'][column]
+                len_column_result = len(column_result)
+                if _column_type == 'as_list' or len_column_result > 1:
+                    result_list = []
+                    for iter_column_result in column_result:
+                        result_list.append(self._serialize_advanced(
+                            iter_column_result['searchValue']
+                        ))
+                    record[column] = result_list
+                elif len_column_result == 1:
+                    record[column] = self._serialize_advanced(
+                        column_result[0]['searchValue']
+                    )
+                else:
+                    record[column] = None
+            yield record
+
+    def _serialize_advanced(self, search_result):
+        if isinstance(search_result, dict):
+            # if it is nested object then take internalId
+            return search_result['internalId']
+        else:
+            return search_result
 
     def _get_all(self):
         records = self.ns_client.getAll(recordType=self.type_name)

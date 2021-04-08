@@ -400,6 +400,15 @@ class NetSuiteClient(object):
             exc = self._request_error(u'getAll', detail=status[u'statusDetail'][0])
             raise exc
 
+    def _search_factory(self, search_type, type_name, **kwargs):
+        _type_name = type_name[0].lower() + type_name[1:]
+        if _type_name not in SEARCH_RECORD_TYPES:
+            raise NetSuiteTypeError(u'{} is not a searchable NetSuite type!'.format(type_name))
+        _search_cls_name = u'{}{}'.format(type_name, search_type)
+        _search_cls = self.get_complex_type(_search_cls_name)
+        _search = _search_cls(**kwargs)
+        return _search
+
     def search_factory(self, type_name, **kwargs):
         _type_name = type_name[0].lower() + type_name[1:]
         if not _type_name in SEARCH_RECORD_TYPES:
@@ -421,15 +430,13 @@ class NetSuiteClient(object):
         return basic_search
 
     def advanced_search_factory(self, type_name, **kwargs):
-        _type_name = type_name[0].lower() + type_name[1:]
-        if _type_name not in SEARCH_RECORD_TYPES:
-            raise NetSuiteTypeError(u'{} is not a searchable NetSuite type!'.format(type_name))
-        advanced_search_cls_name = u'{}SearchAdvanced'.format(type_name)
-        advanced_search_cls = self.get_complex_type(advanced_search_cls_name)
-        advanced_search = advanced_search_cls()
-        for key, value in kwargs.items():
-            setattr(advanced_search, key, value)
-        return advanced_search
+        return self._search_factory('SearchAdvanced', type_name, **kwargs)
+
+    def search_row_factory(self, type_name, **kwargs):
+        return self._search_factory('SearchRow', type_name, **kwargs)
+
+    def search_row_basic_factory(self, type_name, **kwargs):
+        return self._search_factory('SearchRowBasic', type_name, **kwargs)
 
     def row_basic_search_factory(self, type_name, **kwargs):
         _type_name = type_name[0].lower() + type_name[1:]
@@ -469,6 +476,9 @@ class NetSuiteClient(object):
             if hasattr(result.recordList, u'record'):
                 result.records = result.recordList.record
                 return result
+            elif hasattr(result.searchRowList, 'searchRow'):
+                result.records = result.searchRowList.searchRow
+                return result
             else:
                 # Did not find anything
                 result.records = None
@@ -486,8 +496,16 @@ class NetSuiteClient(object):
         status = result.status
         success = status.isSuccess
         if success:
-            result.records = result.recordList.record
-            return result
+            if hasattr(result.recordList, u'record'):
+                result.records = result.recordList.record
+                return result
+            elif hasattr(result.searchRowList, 'searchRow'):
+                result.records = result.searchRowList.searchRow
+                return result
+            else:
+                # Did not find anything
+                result.records = None
+                return result
         else:
             exc = self._request_error(u'searchMoreWithId', detail=status[u'statusDetail'][0])
             raise exc

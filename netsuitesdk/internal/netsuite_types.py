@@ -69,14 +69,20 @@ COMPLEX_TYPES = {
         u'CurrencyRateSearchBasic',
         u'CurrencyRateSearchRowBasic',
         u'ItemSearchRowBasic',
-        u'AccountSearchRowBasic'
+        u'AccountSearchRowBasic',
+        u'SalesTaxItemSearchRowBasic',
+        u'TaxGroupSearchRowBasic',
+        u'VendorSearchRowBasic'
     ],
 
     # urn:relationships.lists.webservices.netsuite.com
     u'ns13': [
         u'Customer', u'CustomerSearch',
         u'Vendor', u'VendorSearch',
-        u'Job', u'JobSearch'
+        u'Job', u'JobSearch',
+        u'VendorSearchAdvanced',
+        u'VendorSearchRow',
+        u'VendorCurrency'
 
     ],
 
@@ -100,6 +106,10 @@ COMPLEX_TYPES = {
         u'CurrencyRate', u'CurrencyRateSearch',
         u'AccountSearchAdvanced',
         u'AccountSearchRow',
+        u'SalesTaxItemSearchAdvanced',
+        u'SalesTaxItemSearchRow',
+        u'TaxGroupSearchRow',
+        u'TaxGroupSearchAdvanced'
     ],
 
     u'ns19': [
