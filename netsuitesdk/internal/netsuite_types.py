@@ -22,6 +22,7 @@ COMPLEX_TYPES = {
         u'SearchBooleanField',
         u'SearchDateField',
         u'SearchMultiSelectField',
+        u'SearchColumnDoubleField',
         u'SearchColumnSelectField',
         u'SearchColumnDateField',
         u'Status',
@@ -66,14 +67,25 @@ COMPLEX_TYPES = {
         u'CustomListSearchBasic',
         u'AccountingPeriodSearchBasic',
         u'CurrencyRateSearchBasic',
-        u'CurrencyRateSearchRowBasic'
+        u'CurrencyRateSearchRowBasic',
+        u'ItemSearchRowBasic',
+        u'AccountSearchRowBasic',
+        u'SalesTaxItemSearchRowBasic',
+        u'TaxGroupSearchRowBasic',
+        u'VendorSearchRowBasic',
+        u'ExpenseCategorySearchRowBasic',
+        u'UnitsTypeSearchRowBasic',
+        u'TransactionSearchRowBasic'
     ],
 
     # urn:relationships.lists.webservices.netsuite.com
     u'ns13': [
         u'Customer', u'CustomerSearch',
         u'Vendor', u'VendorSearch',
-        u'Job', u'JobSearch'
+        u'Job', u'JobSearch',
+        u'VendorSearchAdvanced',
+        u'VendorSearchRow',
+        u'VendorCurrency'
 
     ],
 
@@ -90,13 +102,31 @@ COMPLEX_TYPES = {
         u'VendorCategory', u'VendorCategorySearch',
         u'SalesTaxItem', u'SalesTaxItemSearch',
         u'ItemSearch',
-        u'UnitsType', u'UnitsTypeSearch',
+        u'ItemSearchAdvanced',
+        u'ItemSearchRow',
+        u'UnitsType',
+        u'UnitsTypeSearch',
+        u'UnitsTypeSearchAdvanced',
+        u'UnitsTypeSearchRow',
         u'Term', u'TermSearch',
-        u'CurrencyRate', u'CurrencyRateSearch',
+        u'CurrencyRate',
+        u'CurrencyRateSearch',
+        u'CurrencyRateSearchRow',
+        u'CurrencyRateSearchAdvanced',
+        u'AccountSearchAdvanced',
+        u'AccountSearchRow',
+        u'SalesTaxItemSearchAdvanced',
+        u'SalesTaxItemSearchRow',
+        u'TaxGroupSearchRow',
+        u'TaxGroupSearchAdvanced',
+        u'ExpenseCategorySearchRow',
+        u'ExpenseCategorySearchAdvanced',
     ],
 
     u'ns19': [
-        u'TransactionSearch'
+        u'TransactionSearch',
+        u'TransactionSearchRow',
+        u'TransactionSearchAdvanced',
 
     ],
 
