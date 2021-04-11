@@ -75,10 +75,26 @@ class ApiBase:
         ps = PaginatedSearch(client=self.ns_client, type_name=self.type_name, pageSize=page_size)
         return self._paginated_search_to_generator(paginated_search=ps)
 
-    def advanced_search(self, page_size, basic_columns, joins=None):
+    def advanced_search_by_id(self, page_size, search_id, *basic_columns):
+        search_record = self.ns_client.advanced_search_factory(self.type_name)
+        search_record.savedSearchId = search_id
+
+        ps = PaginatedSearch(client=self.ns_client,
+                             search_record=search_record,
+                             type_name=self.type_name,
+                             pageSize=page_size)
+        for result_search_record in self._paginated_search_to_generator(paginated_search=ps):
+            pass
+
+    def advanced_search(self, page_size, basic_columns, search_criteria=None, joins=None):
         """
         :param page_size:
         :param list basic_columns:
+        :param list search_criteria:
+            list of tuples where
+                (('searchField', 'operator', 'value'),)
+                Example:
+                    (('transactionNumber', 'startsWith', 'PURCHORD'),)
         :param list joins:
         """
         if not joins:
@@ -88,12 +104,24 @@ class ApiBase:
         search_row = self.ns_client.search_row_factory(self.type_name)
         search_row.basic = self.ns_client.search_row_basic_factory(self.type_name)
 
+        # build list of columns which we want to get in response
         columns_types = dict(search_row.basic.__class__._xsd_type.elements)
         for column in basic_columns:
             if isinstance(column, tuple):
                 column, _column_type = column
             column_type = columns_types[column].type()
             setattr(search_row.basic, column, column_type)
+
+        # extra search criteria
+        if search_criteria:
+            search = self.ns_client.search_factory(self.type_name)
+            search.basic = self.ns_client.basic_search_factory(self.type_name)
+            search_columns_types = dict(search.basic.__class__._xsd_type.elements)
+            for search_field, operator, value in search_criteria:
+                _f = search_columns_types[search_field](searchValue=value, operator=operator)
+                setattr(search.basic, search_field, _f)
+
+            search_record.criteria = search
 
         # join_types = dict(search_row.__class__._xsd_type.elements)
         # for join, join_fields in joins:
@@ -137,6 +165,20 @@ class ApiBase:
                     )
                 else:
                     record[column] = None
+
+                # for join, join_fields in joins:
+                #     if not result_search_record[join]:
+                #         continue
+                #     join_columns = {}
+                #     for join_field in join_fields:
+                #         if len(result_search_record[join][join_field]):
+                #             join_columns[join_field] = self._serialize_advanced(
+                #                 result_search_record[join][join_field][0]['searchValue']
+                #             )
+                #         else:
+                #             join_columns[join_field] = None
+                #     record[join] = join_columns
+
             yield record
 
     def _serialize_advanced(self, search_result):

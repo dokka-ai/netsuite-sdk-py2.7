@@ -72,7 +72,10 @@ COMPLEX_TYPES = {
         u'AccountSearchRowBasic',
         u'SalesTaxItemSearchRowBasic',
         u'TaxGroupSearchRowBasic',
-        u'VendorSearchRowBasic'
+        u'VendorSearchRowBasic',
+        u'ExpenseCategorySearchRowBasic',
+        u'UnitsTypeSearchRowBasic',
+        u'TransactionSearchRowBasic'
     ],
 
     # urn:relationships.lists.webservices.netsuite.com
@@ -101,19 +104,29 @@ COMPLEX_TYPES = {
         u'ItemSearch',
         u'ItemSearchAdvanced',
         u'ItemSearchRow',
-        u'UnitsType', u'UnitsTypeSearch',
+        u'UnitsType',
+        u'UnitsTypeSearch',
+        u'UnitsTypeSearchAdvanced',
+        u'UnitsTypeSearchRow',
         u'Term', u'TermSearch',
-        u'CurrencyRate', u'CurrencyRateSearch',
+        u'CurrencyRate',
+        u'CurrencyRateSearch',
+        u'CurrencyRateSearchRow',
+        u'CurrencyRateSearchAdvanced',
         u'AccountSearchAdvanced',
         u'AccountSearchRow',
         u'SalesTaxItemSearchAdvanced',
         u'SalesTaxItemSearchRow',
         u'TaxGroupSearchRow',
-        u'TaxGroupSearchAdvanced'
+        u'TaxGroupSearchAdvanced',
+        u'ExpenseCategorySearchRow',
+        u'ExpenseCategorySearchAdvanced',
     ],
 
     u'ns19': [
-        u'TransactionSearch'
+        u'TransactionSearch',
+        u'TransactionSearchRow',
+        u'TransactionSearchAdvanced',
 
     ],
 
