@@ -61,7 +61,9 @@ def test_items_search(ns_connection):
     advanced_items = list(ns_connection.items.advanced_search(
         100,
         ('internalId', 'expenseAccount', 'class', 'location', 'department',
-         'displayName', 'vendorName', 'cost', 'unitsType')
+         'displayName', 'vendorName', 'cost', 'unitsType', 'itemId',
+         'deferredExpenseAccount', 'incomeAccount',
+         'purchaseDescription')
     ))
 
     assert len(advanced_items) == len(all_items)
@@ -70,12 +72,21 @@ def test_items_search(ns_connection):
 
     for advanced_item, item in zip(advanced_items, all_items):
         assert advanced_item['internalId'] == item['internalId']
-        # assert advanced_item['expenseAccount'] == get_internal_protected(item, 'expenseAccount')
+        if advanced_item['incomeAccount']:
+            # in advanced search expenseAccount it is Expense/COGS Account
+            # but in regular search there are 2 fields:
+            # expenseAccount and cogsAccount. and I saw that if
+            assert None is get_internal_protected(item, 'expenseAccount')
+        else:
+            assert advanced_item['expenseAccount'] == get_internal_protected(item, 'expenseAccount')
         assert advanced_item['class'] == get_internal_protected(item, 'class')
         assert advanced_item['location'] == get_internal_protected(item, 'location')
         assert advanced_item['department'] == get_internal_protected(item, 'department')
         assert advanced_item['displayName'] == item.get('displayName')
+        assert advanced_item['itemId'] == item.get('itemId')
         assert advanced_item['vendorName'] == item.get('vendorName')
+        assert advanced_item['purchaseDescription'] == item.get('purchaseDescription')
+        # clients has different cost some reasons s
         # assert advanced_item['cost'] == item.get('cost')
         assert advanced_item['unitsType'] == get_internal_protected(item, 'unitsType')
 
@@ -194,3 +205,9 @@ def test_purchase_orders_search(ns_connection):
         assert advanced_order['internalId'] == order['internalId']
         assert advanced_order['tranId'] == order['tranId']
         assert advanced_order['entity'] == get_internal_protected(order, 'entity')
+
+
+def _test_saved_vendors_advanced_search(ns_connection):
+    ns_connection.client.set_search_preferences(return_search_columns=True)
+
+    all_vendors = list(ns_connection.vendors.advanced_search_by_id(100, 30))

@@ -33,8 +33,9 @@ COMPLEX_TYPES = {
         u'CustomFieldList',
         u'StringCustomFieldRef',
         u'CustomRecordRef',
-        u'SelectCustomFieldRef'
-
+        u'SelectCustomFieldRef',
+        u'CustomizationRef',
+        u'SearchRowBasic'
     ],
 
     # ns4: https://webservices.netsuite.com/xsd/platform/v2017_2_0/messages.xsd
@@ -75,7 +76,8 @@ COMPLEX_TYPES = {
         u'VendorSearchRowBasic',
         u'ExpenseCategorySearchRowBasic',
         u'UnitsTypeSearchRowBasic',
-        u'TransactionSearchRowBasic'
+        u'TransactionSearchRowBasic',
+        u'CustomSearchRowBasic',
     ],
 
     # urn:relationships.lists.webservices.netsuite.com
