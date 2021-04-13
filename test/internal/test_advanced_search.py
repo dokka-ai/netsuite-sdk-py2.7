@@ -1,24 +1,31 @@
 import pytest
-from copy import deepcopy
 from six import itervalues
 
 
 def test_account_search(ns_connection):
     ns_connection.client.set_search_preferences(return_search_columns=True)
     advanced_accounts = list(ns_connection.accounts.advanced_search(
-        100, ('internalId', 'name', 'type', ('subsidiary', 'as_list'))))
+        100,
+        ('internalId', 'name', 'legalName', 'type', 'subsidiary', 'number', 'description'),
+        search_criteria=(
+            ('type', 'anyOf', [
+                '_expense',
+                '_otherExpense', ]),
+        )))
 
     new_advanced_accounts = {}
     for acc in advanced_accounts:
         if acc['internalId'] in new_advanced_accounts:
-            new_advanced_accounts[acc['internalId']]['subsidiary'].extend(acc['subsidiary'])
+            new_advanced_accounts[acc['internalId']]['subsidiary'].append(acc['subsidiary'])
         else:
-            new_acc = deepcopy(acc)
+            new_acc = acc
+            new_acc['subsidiary'] = [acc['subsidiary']]
             new_advanced_accounts[acc['internalId']] = new_acc
 
     advanced_accounts = [acc for acc in itervalues(new_advanced_accounts)]
 
     all_accounts = list(ns_connection.accounts.get_all_generator(100))
+    all_accounts = [a for a in all_accounts if a['acctType'] in ['_expense', '_otherExpense']]
     assert len(advanced_accounts) == len(all_accounts)
 
     advanced_accounts = sorted(advanced_accounts, key=lambda x: x['internalId'])
@@ -26,6 +33,7 @@ def test_account_search(ns_connection):
 
     for advanced_account, account in zip(advanced_accounts, all_accounts):
         assert advanced_account['internalId'] == account['internalId']
+        # some reason in advance search there is no 'human's' name of account
         assert account['acctName'] in advanced_account['name']
         assert advanced_account['type'] == account['acctType']
 
@@ -33,7 +41,10 @@ def test_account_search(ns_connection):
         for subsidiary in account['subsidiaryList']['recordRef']:
             subsidiaries.append(subsidiary['internalId'])
 
-        assert sorted(subsidiaries) == advanced_account['subsidiary']
+        set_advanced_account = set(advanced_account['subsidiary'])
+        set_subsidiaries = set(subsidiaries)
+
+        assert len(set_subsidiaries.difference(set_advanced_account)) == 0
 
 
 # doesnt work
@@ -205,6 +216,24 @@ def test_purchase_orders_search(ns_connection):
         assert advanced_order['internalId'] == order['internalId']
         assert advanced_order['tranId'] == order['tranId']
         assert advanced_order['entity'] == get_internal_protected(order, 'entity')
+
+
+def test_subsidiaries_rate_search(ns_connection):
+    subsidiaries = ns_connection.subsidiaries.get_all()
+
+    ns_connection.client.set_search_preferences(return_search_columns=True)
+    advanced_subsidiaries = list(ns_connection.subsidiaries.advanced_search(
+        100, ('internalId', 'name', 'nameNoHierarchy', 'legalName')
+    ))
+
+    assert len(advanced_subsidiaries) == len(subsidiaries)
+
+    advanced_subsidiaries = sorted(advanced_subsidiaries, key=lambda x: int(x['internalId']))
+    subsidiaries = sorted(subsidiaries, key=lambda x: int(x['internalId']))
+
+    for advanced_sub, sub in zip(advanced_subsidiaries, subsidiaries):
+        assert advanced_sub['internalId'] == sub['internalId']
+        assert advanced_sub['nameNoHierarchy'] == sub['name']
 
 
 def _test_saved_vendors_advanced_search(ns_connection):

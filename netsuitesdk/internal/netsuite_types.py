@@ -35,7 +35,8 @@ COMPLEX_TYPES = {
         u'CustomRecordRef',
         u'SelectCustomFieldRef',
         u'CustomizationRef',
-        u'SearchRowBasic'
+        u'SearchRowBasic',
+        u'CustomizationType'
     ],
 
     # ns4: https://webservices.netsuite.com/xsd/platform/v2017_2_0/messages.xsd
@@ -45,6 +46,8 @@ COMPLEX_TYPES = {
         u'GetRequest',
         u'GetResponse',
         u'GetAllResponse',
+        u'GetListRequest',
+        u'GetListResponse',
         u'PartnerInfo',
         u'ReadResponse',
         u'SearchPreferences',
@@ -78,6 +81,7 @@ COMPLEX_TYPES = {
         u'UnitsTypeSearchRowBasic',
         u'TransactionSearchRowBasic',
         u'CustomSearchRowBasic',
+        u'SubsidiarySearchRowBasic'
     ],
 
     # urn:relationships.lists.webservices.netsuite.com
@@ -123,6 +127,8 @@ COMPLEX_TYPES = {
         u'TaxGroupSearchAdvanced',
         u'ExpenseCategorySearchRow',
         u'ExpenseCategorySearchAdvanced',
+        u'SubsidiarySearchRow',
+        u'SubsidiarySearchAdvanced',
     ],
 
     u'ns19': [
@@ -192,8 +198,10 @@ SIMPLE_TYPES = {
     u'ns1': [
         u'RecordType',
         u'GetAllRecordType',
+        u'GetListRecordType',
         u'SearchRecordType',
         u'SearchStringFieldOperator',
+        u'GetCustomizationType'
 
     ],
 }
