@@ -236,6 +236,26 @@ def test_subsidiaries_rate_search(ns_connection):
         assert advanced_sub['nameNoHierarchy'] == sub['name']
 
 
+def test_vendor_subsidiary_relationship_search(ns_connection):
+    vrs = ns_connection.vendor_relationships.get_all()
+
+    ns_connection.client.set_search_preferences(return_search_columns=True)
+    advanced_vrs = list(ns_connection.vendor_relationships.advanced_search(
+        100, ('internalId', 'entity', 'taxitem', 'subsidiary',)
+    ))
+
+    assert len(advanced_vrs) == len(vrs)
+
+    advanced_vrs = sorted(advanced_vrs, key=lambda x: int(x['internalId']))
+    vrs = sorted(vrs, key=lambda x: int(x['internalId']))
+
+    for advanced_vr, vr in zip(advanced_vrs, vrs):
+        assert advanced_vr['internalId'] == vr['internalId']
+        assert advanced_vr['entity'] == get_internal_protected(vr, 'entity')
+        assert advanced_vr['taxitem'] == get_internal_protected(vr, 'taxItem')
+        assert advanced_vr['subsidiary'] == get_internal_protected(vr, 'subsidiary')
+
+
 def _test_saved_vendors_advanced_search(ns_connection):
     ns_connection.client.set_search_preferences(return_search_columns=True)
 

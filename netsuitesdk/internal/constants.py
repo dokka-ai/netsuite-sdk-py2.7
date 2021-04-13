@@ -86,6 +86,7 @@ SEARCH_RECORD_TYPES = [
     u'usage',
     u'vendor',
     u'vendorCategory',
+    u'vendorSubsidiaryRelationship',
     u'winLossReason',
     u'salesTaxItem',
     u'unitsType',

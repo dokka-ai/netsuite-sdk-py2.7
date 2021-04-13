@@ -81,7 +81,9 @@ COMPLEX_TYPES = {
         u'UnitsTypeSearchRowBasic',
         u'TransactionSearchRowBasic',
         u'CustomSearchRowBasic',
-        u'SubsidiarySearchRowBasic'
+        u'SubsidiarySearchRowBasic',
+        u'VendorSubsidiaryRelationshipSearchBasic',
+        u'VendorSubsidiaryRelationshipSearchRowBasic'
     ],
 
     # urn:relationships.lists.webservices.netsuite.com
@@ -91,8 +93,11 @@ COMPLEX_TYPES = {
         u'Job', u'JobSearch',
         u'VendorSearchAdvanced',
         u'VendorSearchRow',
-        u'VendorCurrency'
-
+        u'VendorCurrency',
+        u'VendorSubsidiaryRelationship',
+        u'VendorSubsidiaryRelationshipSearch',
+        u'VendorSubsidiaryRelationshipSearchRow',
+        u'VendorSubsidiaryRelationshipSearchAdvanced',
     ],
 
     # urn:accounting_2017_2.lists.webservices.netsuite.com
@@ -198,7 +203,6 @@ SIMPLE_TYPES = {
     u'ns1': [
         u'RecordType',
         u'GetAllRecordType',
-        u'GetListRecordType',
         u'SearchRecordType',
         u'SearchStringFieldOperator',
         u'GetCustomizationType'

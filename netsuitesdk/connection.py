@@ -5,7 +5,7 @@ from .api.departments import Departments
 from .api.currencies import Currencies
 from .api.locations import Locations
 from .api.vendor_bills import VendorBills
-from .api.vendors import Vendors
+from .api.vendors import Vendors, VendorSubsidiaryRelationships
 from .api.subsidiaries import Subsidiaries
 from .api.journal_entries import JournalEntries
 from .api.employees import Employees
@@ -46,6 +46,7 @@ class NetSuiteConnection(object):
         self.locations = Locations(ns_client)
         self.vendor_bills = VendorBills(ns_client)
         self.vendors = Vendors(ns_client)
+        self.vendor_relationships = VendorSubsidiaryRelationships(ns_client)
         self.subsidiaries = Subsidiaries(ns_client)
         self.journal_entries = JournalEntries(ns_client)
         self.employees = Employees(ns_client)

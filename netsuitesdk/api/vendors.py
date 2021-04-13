@@ -4,6 +4,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class Vendors(ApiBase):
     def __init__(self, ns_client):
         ApiBase.__init__(self, ns_client=ns_client, type_name=u'Vendor')
@@ -16,3 +17,8 @@ class Vendors(ApiBase):
 
         res = self.ns_client.upsert(vendor)
         return self._serialize(res)
+
+
+class VendorSubsidiaryRelationships(ApiBase):
+    def __init__(self, ns_client):
+        ApiBase.__init__(self, ns_client=ns_client, type_name=u'VendorSubsidiaryRelationship')
