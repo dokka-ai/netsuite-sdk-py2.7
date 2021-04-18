@@ -12,6 +12,8 @@ import os.path
 import random
 import time
 
+import oauthlib.oauth1
+import requests
 from zeep import Client
 from zeep.cache import SqliteCache
 from zeep.transports import Transport
@@ -634,6 +636,27 @@ class NetSuiteClient(object):
             exc = self._request_error(u'attach', detail=status[u'statusDetail'][0])
             raise exc
 
+    def call_get_restlet(self, script, deploy, integration_type):
+        oauth1_client = oauthlib.oauth1.Client(
+            self._consumer_key,
+            client_secret=self._consumer_secret,
+            resource_owner_key=self._token_key,
+            resource_owner_secret=self._token_secret,
+            signature_method=oauthlib.oauth1.SIGNATURE_HMAC_SHA1,
+            realm=self._account
+        )
+        main_url = "https://{}.restlets.api.netsuite.com/app/site/hosting/restlet.nl".format(self._account)
+        rest_url = "{}?script={}&deploy={}&integrationType={}".format(
+            main_url,
+            script,
+            deploy,
+            integration_type
+        )
+
+        url, headers, _ = oauth1_client.sign(rest_url)
+        headers['Content-Type'] = 'application/json'
+        response = requests.get(rest_url, headers=headers)
+        return response.json()
 
     # def upsertList(self, records):
     #     """

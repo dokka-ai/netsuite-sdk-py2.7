@@ -2,6 +2,13 @@ import pytest
 from six import itervalues
 
 
+def round_d(n, decimals=0):
+    if n is None:
+        return n
+    multiplier = 10 ** decimals
+    return round(n * multiplier) / multiplier
+
+
 def test_account_search(ns_connection):
     ns_connection.client.set_search_preferences(return_search_columns=True)
     advanced_accounts = list(ns_connection.accounts.advanced_search(
@@ -73,14 +80,35 @@ def test_items_search(ns_connection):
         100,
         ('internalId', 'expenseAccount', 'class', 'location', 'department',
          'displayName', 'vendorName', 'cost', 'unitsType', 'itemId',
-         'deferredExpenseAccount', 'incomeAccount',
-         'purchaseDescription')
+         'deferredExpenseAccount', 'incomeAccount', 'lastPurchasePrice',
+         'purchasePriceVarianceAcct', 'purchaseDescription',
+         'otherVendor', 'vendorCode', 'vendorCost', 'vendorPriceCurrency',
+         'subsidiary'),
     ))
 
-    assert len(advanced_items) == len(all_items)
+    new_advanced_items = {}
+    for item in advanced_items:
+        if item['internalId'] in new_advanced_items:
+            new_advanced_items[item['internalId']]['vendor_prices'].append({
+                'vendor_id': item['otherVendor'],
+                'currency_name': item['vendorPriceCurrency'],
+                'vendor_cost': item['vendorCost'],
+            })
+        else:
+            new_item = item
+            new_item['vendor_prices'] = [{
+                'vendor_id': item['otherVendor'],
+                'currency_name': item['vendorPriceCurrency'],
+                'vendor_cost': item['vendorCost'],
+            }]
+            new_advanced_items[item['internalId']] = new_item
+
+    advanced_items = [acc for acc in itervalues(new_advanced_items)]
+
     advanced_items = sorted(advanced_items, key=lambda x: x['internalId'])
     all_items = sorted(all_items, key=lambda x: x['internalId'])
 
+    assert len(advanced_items) == len(all_items)
     for advanced_item, item in zip(advanced_items, all_items):
         assert advanced_item['internalId'] == item['internalId']
         if advanced_item['incomeAccount']:
@@ -99,6 +127,7 @@ def test_items_search(ns_connection):
         assert advanced_item['purchaseDescription'] == item.get('purchaseDescription')
         # clients has different cost some reasons s
         # assert advanced_item['cost'] == item.get('cost')
+        assert round_d(advanced_item['lastPurchasePrice'], 2) == round_d(item.get('lastPurchasePrice'), 2)
         assert advanced_item['unitsType'] == get_internal_protected(item, 'unitsType')
 
 

@@ -15,3 +15,4 @@ ipaddress~=1.0.23
 setuptools~=44.1.1
 oauth2~=1.9.0.post1
 requests~=2.25.0
+oauthlib~=3.1.0

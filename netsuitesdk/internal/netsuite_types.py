@@ -72,6 +72,7 @@ COMPLEX_TYPES = {
         u'AccountingPeriodSearchBasic',
         u'CurrencyRateSearchBasic',
         u'CurrencyRateSearchRowBasic',
+        u'ItemSearchBasic',
         u'ItemSearchRowBasic',
         u'AccountSearchRowBasic',
         u'SalesTaxItemSearchRowBasic',
