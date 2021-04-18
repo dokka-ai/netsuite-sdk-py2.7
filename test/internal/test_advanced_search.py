@@ -137,7 +137,7 @@ def test_vendor_search(ns_connection):
     ns_connection.client.set_search_preferences(return_search_columns=True)
     advanced_vendors = list(ns_connection.vendors.advanced_search(
         100,
-        ('internalId', 'entityId', 'subsidiary', 'currency', 'terms',)
+        ('internalId', 'entityId', 'subsidiary', 'currency', 'terms', 'expenseAccount', 'companyName', )
     ))
 
     assert len(advanced_vendors) == len(all_vendors)
@@ -146,11 +146,19 @@ def test_vendor_search(ns_connection):
 
     for advanced_item, item in zip(advanced_vendors, all_vendors):
         assert advanced_item['internalId'] == item['internalId']
-        # IN condition
-        assert advanced_item['entityId'] in item.get('entityId')
+        if advanced_item['companyName'] \
+                and advanced_item['companyName'] != advanced_item['entityId']\
+                and advanced_item['entityId'] != item.get('entityId'):
+            company_name_advanced = "{} {}".format(advanced_item['entityId'], advanced_item['companyName'])
+            assert company_name_advanced == item.get('entityId')
+        else:
+            assert advanced_item['entityId'] == item.get('entityId')
+
+        assert advanced_item['companyName'] == item.get('companyName')
         assert advanced_item['subsidiary'] == item['subsidiary']['internalId']
         assert advanced_item['currency'] == item['currency']['internalId']
         assert advanced_item['terms'] == get_internal_protected(item, 'terms')
+        assert advanced_item['expenseAccount'] == get_internal_protected(item, 'expenseAccount')
 
 
 # def test_vendor_advanced_search_by_id(ns_connection):

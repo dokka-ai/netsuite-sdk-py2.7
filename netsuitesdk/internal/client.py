@@ -642,7 +642,7 @@ class NetSuiteClient(object):
             client_secret=self._consumer_secret,
             resource_owner_key=self._token_key,
             resource_owner_secret=self._token_secret,
-            signature_method=oauthlib.oauth1.SIGNATURE_HMAC_SHA1,
+            signature_method=self._signature_algorithm,
             realm=self._account
         )
         main_url = "https://{}.restlets.api.netsuite.com/app/site/hosting/restlet.nl".format(self._account)
