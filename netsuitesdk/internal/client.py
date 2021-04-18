@@ -62,8 +62,8 @@ class NetSuiteClient(object):
         assert u'-' not in account, u'Account cannot have hyphens, it is likely an underscore'
         self._account = account
 
-        self._wsdl_url = self.WSDL_URL_TEMPLATE.format(account=account.replace(u'_', u'-'))
-        self._datacenter_url = self.DATACENTER_URL_TEMPLATE.format(account=account.replace(u'_', u'-'))
+        self._wsdl_url = self.WSDL_URL_TEMPLATE.format(account=self.cleaned_account)
+        self._datacenter_url = self.DATACENTER_URL_TEMPLATE.format(account=self.cleaned_account)
 
         if caching:
             path = os.path.join(os.path.dirname(os.path.abspath(__file__)), u'cache.db')
@@ -88,6 +88,10 @@ class NetSuiteClient(object):
         self._app_info = None
         self._is_authenticated = False
         self.set_search_preferences()
+
+    @property
+    def cleaned_account(self):
+        return self._account.replace(u'_', u'-')
 
     def set_search_preferences(self, page_size = 100, return_search_columns = False):
         self._search_preferences = self.SearchPreferences(
@@ -645,7 +649,7 @@ class NetSuiteClient(object):
             signature_method=self._signature_algorithm,
             realm=self._account
         )
-        main_url = "https://{}.restlets.api.netsuite.com/app/site/hosting/restlet.nl".format(self._account)
+        main_url = "https://{}.restlets.api.netsuite.com/app/site/hosting/restlet.nl".format(self.cleaned_account)
         rest_url = "{}?script={}&deploy={}&integrationType={}".format(
             main_url,
             script,
