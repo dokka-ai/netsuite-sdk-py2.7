@@ -656,7 +656,7 @@ class NetSuiteClient(object):
 
         url, headers, _ = oauth1_client.sign(main_url)
         headers['Content-Type'] = 'application/json'
-        response = requests.get(rest_url, headers=headers)
+        response = requests.get(main_url, headers=headers)
         return response.json()
 
     # def upsertList(self, records):
