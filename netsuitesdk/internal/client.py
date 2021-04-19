@@ -640,7 +640,7 @@ class NetSuiteClient(object):
             exc = self._request_error(u'attach', detail=status[u'statusDetail'][0])
             raise exc
 
-    def call_get_restlet(self, script, deploy, integration_type):
+    def call_get_restlet(self, rest_url, integration_type):
         oauth1_client = oauthlib.oauth1.Client(
             self._consumer_key,
             client_secret=self._consumer_secret,
@@ -649,15 +649,12 @@ class NetSuiteClient(object):
             signature_method=self._signature_algorithm,
             realm=self._account
         )
-        main_url = "https://{}.restlets.api.netsuite.com/app/site/hosting/restlet.nl".format(self.cleaned_account)
-        rest_url = "{}?script={}&deploy={}&integrationType={}".format(
-            main_url,
-            script,
-            deploy,
+        main_url = "{}&integrationType={}".format(
+            rest_url,
             integration_type
         )
 
-        url, headers, _ = oauth1_client.sign(rest_url)
+        url, headers, _ = oauth1_client.sign(main_url)
         headers['Content-Type'] = 'application/json'
         response = requests.get(rest_url, headers=headers)
         return response.json()
