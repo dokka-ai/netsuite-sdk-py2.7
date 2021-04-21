@@ -25,6 +25,7 @@ COMPLEX_TYPES = {
         u'SearchColumnDoubleField',
         u'SearchColumnSelectField',
         u'SearchColumnDateField',
+        u'SearchColumnStringField',
         u'Status',
         u'StatusDetail',
         u'TokenPassport',

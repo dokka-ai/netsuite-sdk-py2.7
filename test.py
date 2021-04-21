@@ -18,8 +18,10 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         token_secret=NS_TOKEN_SECRET)
 
 start = time()
-bill = ns.vendor_bills.get_bill_by_txn_id(13892)
-print bill
+bills = ns.vendor_bills.get_bill_by_txn_id(13892)
+for bill in bills:
+    for fields in bill:
+        print fields
 # start = time()
 # a = list(ns.vendor_bills.get_all_generator())
 # print a

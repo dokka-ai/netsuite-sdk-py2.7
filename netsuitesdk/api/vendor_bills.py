@@ -46,11 +46,11 @@ class VendorBills(ApiBase):
 
     def get_bill_by_txn_id(self, tran_id):
         record_type_search_field = self.ns_client.SearchStringField(searchValue=u'VendorBill', operator=u'contains')
-        id_search_field = self.ns_client.SearchStringField(searchValue=tran_id, operator=u'contains')
+        id_search_field = self.ns_client.SearchMultiSelectField(searchValue={'internalId':tran_id}, operator="anyOf")
         basic_search = self.ns_client.basic_search_factory(
             u'Transaction',
             recordType=record_type_search_field,
-            id=id_search_field
+            internalId=id_search_field
         )
         paginated_search = PaginatedSearch(client=self.ns_client,
                                            type_name=u'Transaction',
