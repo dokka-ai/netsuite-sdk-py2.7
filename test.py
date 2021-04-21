@@ -18,15 +18,8 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         token_secret=NS_TOKEN_SECRET)
 
 start = time()
-ns.client.set_search_preferences(return_search_columns=True)
-a = ns.items.get_all(100)
-print a
-print len(a)
-print "*************"
-a = list(ns.accounts.search_all_advanced(100))
-print a
-print time() - start
-
+bill = ns.vendor_bills.get_bill_by_txn_id(13892)
+print bill
 # start = time()
 # a = list(ns.vendor_bills.get_all_generator())
 # print a
