@@ -3,6 +3,7 @@ from .api.accounts import Accounts
 from .api.classifications import Classifications
 from .api.departments import Departments
 from .api.currencies import Currencies
+from .api.communication import Note
 from .api.locations import Locations
 from .api.vendor_bills import VendorBills
 from .api.vendors import Vendors, VendorSubsidiaryRelationships
@@ -67,6 +68,7 @@ class NetSuiteConnection(object):
         self.purchase_orders = PurchaseOrder(ns_client)
         self.terms = Terms(ns_client)
         self.currencyRate = CurrencyRate(ns_client)
+        self.communication = Note(ns_client)
         self.ns = ns_client
 
     def get_record_by_type(self, _type, internal_id):

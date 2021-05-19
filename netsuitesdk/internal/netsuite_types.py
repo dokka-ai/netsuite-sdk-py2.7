@@ -88,6 +88,11 @@ COMPLEX_TYPES = {
         u'VendorSubsidiaryRelationshipSearchRowBasic'
     ],
 
+    # urn:communication.general.webservices.netsuite.com
+    u'ns9': [
+        u'Note',
+    ],
+
     # urn:relationships.lists.webservices.netsuite.com
     u'ns13': [
         u'Customer', u'CustomerSearch',

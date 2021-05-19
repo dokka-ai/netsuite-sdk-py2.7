@@ -18,6 +18,12 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         token_secret=NS_TOKEN_SECRET)
 
 start = time()
+
+a = ns.communication.post({"transaction": "14492", "title": "heyhey", "note": "hohoho"})
+
+exit(0)
+
+
 bills = ns.vendor_bills.get_bill_by_txn_id(13892)
 for bill in bills:
     for fields in bill:
