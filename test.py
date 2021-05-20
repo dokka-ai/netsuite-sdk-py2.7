@@ -16,17 +16,15 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         consumer_secret=NS_CONSUMER_SECRET,
                         token_key=NS_TOKEN_KEY,
                         token_secret=NS_TOKEN_SECRET)
-
-start = time()
-bills = ns.vendor_bills.get_bill_by_txn_id(13892)
-for bill in bills:
-    for fields in bill:
-        print fields
-# start = time()
-# a = list(ns.vendor_bills.get_all_generator())
-# print a
-# print time() - start
-
+item_fields = (
+			'internalId', 'expenseAccount', 'incomeAccount',
+			'class', 'location', 'itemId', 'department', 'displayName',
+			'vendorName', 'cost', 'unitsType', 'purchaseDescription',
+			'otherVendor', 'vendorCost', 'vendorPriceCurrency', 'lastPurchasePrice'
+		)
+items = ns.items.advanced_search(100, item_fields)
+for item in items:
+    print item
 exit(1)
 
 b = ns.items.get_all()
