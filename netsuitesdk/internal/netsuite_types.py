@@ -40,8 +40,6 @@ COMPLEX_TYPES = {
         u'CustomizationType'
     ],
 
-    u'ns1': [u'Note'],
-
     # ns4: https://webservices.netsuite.com/xsd/platform/v2017_2_0/messages.xsd
     u'ns4': [
         u'ApplicationInfo',

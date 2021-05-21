@@ -22,7 +22,7 @@ item_fields = (
 			'vendorName', 'cost', 'unitsType', 'purchaseDescription',
 			'otherVendor', 'vendorCost', 'vendorPriceCurrency', 'lastPurchasePrice'
 		)
-items = ns.items.advanced_search(100, item_fields)
+items = ns.folders.get_all()
 for item in items:
     print item
 exit(1)

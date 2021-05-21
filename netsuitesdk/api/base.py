@@ -100,7 +100,6 @@ class ApiBase:
         if not joins:
             joins = []
 
-        self.ns_client.set_search_preferences(return_search_columns=True)
         search_record = self.ns_client.advanced_search_factory(self.type_name)
         search_row = self.ns_client.search_row_factory(self.type_name)
         search_row.basic = self.ns_client.search_row_basic_factory(self.type_name)
