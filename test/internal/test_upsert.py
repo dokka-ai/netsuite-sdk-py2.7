@@ -37,7 +37,7 @@ def get_currency(ns):
 def get_employee(ns):
     return ns.get(recordType=u'employee', internalId=u'5')
 
-def nottest_upsert_vendor_bill_expense(ns):
+def test_upsert_vendor_bill_expense(ns):
     vendor_ref = ns.RecordRef(type=u'vendor', internalId=7)
     category = ns.RecordRef(type=u'expenseCategory', internalId=1)
     cat_account_ref = ns.RecordRef(type=u'account', internalId=58)
@@ -48,10 +48,10 @@ def nottest_upsert_vendor_bill_expense(ns):
 
     expenses = []
 
-    vbe1 = ns.VendorBillExpense()
+    vbe1 = ns.VendorCreditExpense()
     vbe1[u'account'] = cat_account_ref
     vbe1[u'amount'] = 10.0
-    vbe1[u'category'] = category
+    # vbe1[u'category'] = category
     vbe1[u'department'] = dep_ref
     vbe1[u'class'] = class_ref
     vbe1[u'location'] = loc_ref
@@ -59,10 +59,10 @@ def nottest_upsert_vendor_bill_expense(ns):
     vbe1[u'taxCode'] = ns.RecordRef(type=u'salesTaxItem', internalId=6)
 
     expenses.append(vbe1)
-    vbe1 = ns.VendorBillExpense()
+    vbe1 = ns.VendorCreditExpense()
     vbe1[u'account'] = cat_account_ref
     vbe1[u'amount'] = 20.0
-    vbe1[u'category'] = category
+    # vbe1[u'category'] = category
     vbe1[u'department'] = dep_ref
     vbe1[u'class'] = class_ref
     vbe1[u'location'] = loc_ref
@@ -71,11 +71,11 @@ def nottest_upsert_vendor_bill_expense(ns):
 
     expenses.append(vbe1)
     externalId = u'1265'
-    bill = ns.VendorBill(externalId=externalId)
+    bill = ns.VendorCredit(externalId=externalId)
     bill[u'currency'] = ns.RecordRef(type=u'currency', internalId=get_currency(ns).internalId) # US dollar
     bill[u'exchangerate'] = 1.0
     bill[u'approvalStatus'] = {'internalId': 1}
-    bill[u'expenseList'] = ns.VendorBillExpenseList(expense=expenses)
+    bill[u'expenseList'] = ns.VendorCreditExpenseList(expense=expenses)
     bill[u'memo'] = u'External Id' + externalId
     bill[u'postingPeriod'] = u'158'
     # bill[u'class'] = class_ref
@@ -87,7 +87,7 @@ def nottest_upsert_vendor_bill_expense(ns):
     logger.debug(u'record_ref = %s', record_ref)
     assert record_ref[u'externalId'] == externalId, u'External ID does not match'
 
-    bill2 = ns.get(recordType=u'vendorBill', externalId=externalId)
+    bill2 = ns.get(recordType=u'vendorCredit', externalId=externalId)
     logger.debug(u'bill2 = %s', unicode(bill2))
     print bill2[u'userTotal']
     assert (29.99 < bill2[u'userTotal']) and (bill2[u'userTotal'] < 36), u'Bill total is not 30.0'

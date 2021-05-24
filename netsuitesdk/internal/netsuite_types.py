@@ -151,9 +151,11 @@ COMPLEX_TYPES = {
         u'VendorBill',
         u'VendorCredit',
         u'VendorBillExpense',
-        u'VendorCreditExpenseList'
+        u'VendorCreditExpense',
         u'VendorBillExpenseList',
+        u'VendorCreditExpenseList',
         u'VendorBillItem',
+        u'VendorCreditItem',
         u'VendorBillItemList',
         u'VendorCreditItemList',
         u'VendorPayment',
