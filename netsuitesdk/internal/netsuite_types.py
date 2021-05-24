@@ -149,6 +149,7 @@ COMPLEX_TYPES = {
     # https://webservices.netsuite.com/xsd/transactions/v2017_2_0/purchases.xsd
     u'ns21': [
         u'VendorBill',
+        u'VendorCredit',
         u'VendorBillExpense',
         u'VendorBillExpenseList',
         u'VendorBillItem',
