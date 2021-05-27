@@ -649,11 +649,11 @@ class NetSuiteClient(object):
             signature_method=self._signature_algorithm,
             realm=self._account
         )
-        main_url = "{}&integrationType={}".format(
+        main_url = '{}&integrationType={}&recType=vendor&sublist=[item,expense]'.format(
             rest_url,
             integration_type
         )
-
+        print main_url
         url, headers, _ = oauth1_client.sign(main_url)
         headers['Content-Type'] = 'application/json'
         response = requests.get(main_url, headers=headers)

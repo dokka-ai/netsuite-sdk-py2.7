@@ -16,6 +16,13 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         consumer_secret=NS_CONSUMER_SECRET,
                         token_key=NS_TOKEN_KEY,
                         token_secret=NS_TOKEN_SECRET)
+
+result = ns.client.call_get_restlet("https://6758546.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=9&deploy=1",
+                             'getCustomFields')
+
+print result
+
+exit(1)
 item_fields = (
 			'internalId', 'expenseAccount', 'incomeAccount',
 			'class', 'location', 'itemId', 'department', 'displayName',
