@@ -17,11 +17,23 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         token_key=NS_TOKEN_KEY,
                         token_secret=NS_TOKEN_SECRET)
 
-result = ns.client.call_get_restlet("https://6758546.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=9&deploy=1",
-                             'getCustomFields')
-
-print result
-
+# ns_client = NetSuiteClient(account=NS_ACCOUNT)
+# ns_client.connect_tba(
+#     consumer_key=NS_CONSUMER_KEY,
+#     consumer_secret=NS_CONSUMER_SECRET,
+#     token_key=NS_TOKEN_KEY,
+#     token_secret=NS_TOKEN_SECRET
+# )
+#
+# for i in range(1, 45):
+#     try:
+#         verbose_type_name = "ns{}:RevRecTemplateSearch".format(i)
+#         result = ns_client._client.get_type(verbose_type_name)
+#         print verbose_type_name, result
+#     except Exception as e:
+#         pass
+result = ns.amortizationTemplate.get_all()
+print list(result)
 exit(1)
 item_fields = (
 			'internalId', 'expenseAccount', 'incomeAccount',

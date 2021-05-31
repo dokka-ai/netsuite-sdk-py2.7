@@ -640,7 +640,7 @@ class NetSuiteClient(object):
             exc = self._request_error(u'attach', detail=status[u'statusDetail'][0])
             raise exc
 
-    def call_get_restlet(self, rest_url, integration_type):
+    def call_get_restlet(self, rest_url, integration_type, recType=None, sublist=None):
         oauth1_client = oauthlib.oauth1.Client(
             self._consumer_key,
             client_secret=self._consumer_secret,
@@ -649,11 +649,15 @@ class NetSuiteClient(object):
             signature_method=self._signature_algorithm,
             realm=self._account
         )
-        main_url = '{}&integrationType={}&recType=vendor&sublist=[item,expense]'.format(
+        main_url = '{}&integrationType={}'.format(
             rest_url,
             integration_type
         )
-        print main_url
+        if recType:
+            main_url += "&recType="+recType
+        if sublist:
+            main_url += "&sublist="+sublist
+
         url, headers, _ = oauth1_client.sign(main_url)
         headers['Content-Type'] = 'application/json'
         response = requests.get(main_url, headers=headers)

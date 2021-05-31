@@ -85,7 +85,9 @@ COMPLEX_TYPES = {
         u'CustomSearchRowBasic',
         u'SubsidiarySearchRowBasic',
         u'VendorSubsidiaryRelationshipSearchBasic',
-        u'VendorSubsidiaryRelationshipSearchRowBasic'
+        u'VendorSubsidiaryRelationshipSearchRowBasic',
+        u'RevRecTemplateSearch',
+        u'RevRecTemplateSearchBasic',
     ],
 
     # urn:relationships.lists.webservices.netsuite.com
@@ -136,6 +138,8 @@ COMPLEX_TYPES = {
         u'ExpenseCategorySearchAdvanced',
         u'SubsidiarySearchRow',
         u'SubsidiarySearchAdvanced',
+        u'RevRecTemplate',
+        u'RevRecTemplateSearch'
     ],
 
     u'ns19': [
