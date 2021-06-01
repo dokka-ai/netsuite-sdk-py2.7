@@ -1,7 +1,6 @@
 from netsuitesdk.connection import NetSuiteConnection
 import os
 import datetime
-
 from time import time
 from netsuitesdk.internal.client import NetSuiteClient
 
@@ -32,8 +31,9 @@ ns_client.connect_tba(
 #         print verbose_type_name, result
 #     except Exception as e:
 #         pass
-r = ns_client.call_get_restlet("https://6758546.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=9&deploy=1",'getAmortizationTemplates')
-print list(r['data'])
+r = ns_client.call_get_restlet("https://6758546.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=9&deploy=1",'getCustomFields',
+                               'vendorbill', "item,expense")
+print r
 exit(1)
 item_fields = (
 			'internalId', 'expenseAccount', 'incomeAccount',

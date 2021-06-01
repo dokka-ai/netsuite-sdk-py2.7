@@ -656,7 +656,7 @@ class NetSuiteClient(object):
         if recType:
             main_url += "&recType="+recType
         if sublist:
-            main_url += "&sublist="+sublist
+            main_url += "&sublists="+sublist
 
         url, headers, _ = oauth1_client.sign(main_url)
         headers['Content-Type'] = 'application/json'
