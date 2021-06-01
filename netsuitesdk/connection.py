@@ -26,7 +26,6 @@ from .api.purchase_order import PurchaseOrder
 from .api.terms import Terms
 from .api.note import Note
 from .api.currencyRate import CurrencyRate
-from .api.amortizationTemplate import AmortizationTemplate
 from .internal.client import NetSuiteClient
 from .internal.utils import PaginatedSearch
 
@@ -70,7 +69,6 @@ class NetSuiteConnection(object):
         self.terms = Terms(ns_client)
         self.currencyRate = CurrencyRate(ns_client)
         self.currencyRate = CurrencyRate(ns_client)
-        self.amortizationTemplate = AmortizationTemplate(ns_client)
         self.note = Note(ns_client)
         self.ns = ns_client
 

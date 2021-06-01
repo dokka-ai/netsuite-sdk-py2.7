@@ -3,6 +3,7 @@ Declares all NetSuite types which are available through attribute lookup `ns.<ty
 of a :class:`~netsuitesdk.client.NetSuiteClient` instance `ns`.
 """
 
+
 COMPLEX_TYPES = {
     u'ns0': [
         u'BaseRef',
@@ -86,8 +87,10 @@ COMPLEX_TYPES = {
         u'SubsidiarySearchRowBasic',
         u'VendorSubsidiaryRelationshipSearchBasic',
         u'VendorSubsidiaryRelationshipSearchRowBasic',
-        u'RevRecTemplateSearch',
+        # u'RevRecTemplateSearch',
+        # u'RevRecScheduleSearch',
         u'RevRecTemplateSearchBasic',
+        u'RevRecScheduleSearchBasic',
     ],
 
     # urn:relationships.lists.webservices.netsuite.com
@@ -139,7 +142,9 @@ COMPLEX_TYPES = {
         u'SubsidiarySearchRow',
         u'SubsidiarySearchAdvanced',
         u'RevRecTemplate',
-        u'RevRecTemplateSearch'
+        u'RevRecSchedule',
+        u'RevRecScheduleSearch',
+        u'RevRecTemplateSearch',
     ],
 
     u'ns19': [
@@ -208,7 +213,6 @@ COMPLEX_TYPES = {
         u'FileSearch',
     ],
 }
-
 SIMPLE_TYPES = {
     # ns1: view-source:https://webservices.netsuite.com/xsd/platform/v2017_2_0/coreTypes.xsd
     u'ns1': [
