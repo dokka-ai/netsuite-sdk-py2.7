@@ -23,17 +23,17 @@ ns_client.connect_tba(
     token_key=NS_TOKEN_KEY,
     token_secret=NS_TOKEN_SECRET
 )
-#
-# for i in range(1, 45):
-#     try:
-#         verbose_type_name = "ns{}:AmortizationPeriod".format(i)
-#         result = ns_client._client.get_type(verbose_type_name)
-#         print verbose_type_name, result
-#     except Exception as e:
-#         pass
-r = ns_client.call_get_restlet("https://6758546.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=9&deploy=1",'getCustomFields',
-                               'vendorbill', "item,expense")
-print r
+
+for i in range(0, 45):
+    try:
+        verbose_type_name = "ns{}:DateCustomFieldRef".format(i)
+        result = ns_client._client.get_type(verbose_type_name)
+        print verbose_type_name, result
+    except Exception as e:
+        pass
+# r = ns_client.call_get_restlet("https://6758546.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=9&deploy=1",'getCustomFields',
+#                                'vendorbill', "item,expense")
+# print r
 exit(1)
 item_fields = (
 			'internalId', 'expenseAccount', 'incomeAccount',

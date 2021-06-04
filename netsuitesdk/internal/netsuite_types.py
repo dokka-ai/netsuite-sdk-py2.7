@@ -36,6 +36,7 @@ COMPLEX_TYPES = {
         u'StringCustomFieldRef',
         u'CustomRecordRef',
         u'SelectCustomFieldRef',
+        u'DateCustomFieldRef',
         u'CustomizationRef',
         u'SearchRowBasic',
         u'CustomizationType'
