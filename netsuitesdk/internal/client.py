@@ -59,7 +59,6 @@ class NetSuiteClient(object):
         """
         self.logger = logging.getLogger(self.__class__.__name__)
         assert account, u'Invalid account'
-        assert u'-' not in account, u'Account cannot have hyphens, it is likely an underscore'
         self._account = account
 
         self._wsdl_url = self.WSDL_URL_TEMPLATE.format(account=self.cleaned_account)
