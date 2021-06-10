@@ -59,7 +59,7 @@ class NetSuiteClient(object):
         """
         self.logger = logging.getLogger(self.__class__.__name__)
         assert account, u'Invalid account'
-        self._account = account
+        self._account = account.upper()
 
         self._wsdl_url = self.WSDL_URL_TEMPLATE.format(account=self.cleaned_account)
         self._datacenter_url = self.DATACENTER_URL_TEMPLATE.format(account=self.cleaned_account)
@@ -90,7 +90,8 @@ class NetSuiteClient(object):
 
     @property
     def cleaned_account(self):
-        return self._account.replace(u'_', u'-')
+        #Normalize account for URLs
+        return self._account.replace(u'_', u'-').lower()
 
     def set_search_preferences(self, page_size = 100, return_search_columns = False):
         self._search_preferences = self.SearchPreferences(
