@@ -16,41 +16,60 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         token_key=NS_TOKEN_KEY,
                         token_secret=NS_TOKEN_SECRET)
 
-ns_client = NetSuiteClient(account=NS_ACCOUNT)
-ns_client.connect_tba(
-    consumer_key=NS_CONSUMER_KEY,
-    consumer_secret=NS_CONSUMER_SECRET,
-    token_key=NS_TOKEN_KEY,
-    token_secret=NS_TOKEN_SECRET
-)
 
-for i in range(0, 45):
-    try:
-        verbose_type_name = "ns{}:DateCustomFieldRef".format(i)
-        result = ns_client._client.get_type(verbose_type_name)
-        print verbose_type_name, result
-    except Exception as e:
-        pass
+start = time()
+
+a = ns.communication.post({"transaction": "14492", "title": "heyhey", "note": "hohoho"})
+
+exit(0)
+
+
+# bills = ns.vendor_bills.get_bill_by_txn_id(13892)
+# for bill in bills:
+#     for fields in bill:
+#         print fields
+# start = time()
+# a = list(ns.vendor_bills.get_all_generator())
+# print a
+# print time() - start
+
+
+# ns_client = NetSuiteClient(account=NS_ACCOUNT)
+# ns_client.connect_tba(
+#     consumer_key=NS_CONSUMER_KEY,
+#     consumer_secret=NS_CONSUMER_SECRET,
+#     token_key=NS_TOKEN_KEY,
+#     token_secret=NS_TOKEN_SECRET
+# )
+
+# for i in range(0, 45):
+#     try:
+#         verbose_type_name = "ns{}:DateCustomFieldRef".format(i)
+#         result = ns_client._client.get_type(verbose_type_name)
+#         print verbose_type_name, result
+#     except Exception as e:
+#         pass
 # r = ns_client.call_get_restlet("https://6758546.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=9&deploy=1",'getCustomFields',
 #                                'vendorbill', "item,expense")
 # print r
-exit(1)
-item_fields = (
-			'internalId', 'expenseAccount', 'incomeAccount',
-			'class', 'location', 'itemId', 'department', 'displayName',
-			'vendorName', 'cost', 'unitsType', 'purchaseDescription',
-			'otherVendor', 'vendorCost', 'vendorPriceCurrency', 'lastPurchasePrice'
-		)
-items = ns.folders.get_all()
-for item in items:
-    print item
-exit(1)
+# exit(1)
+# item_fields = (
+# 			'internalId', 'expenseAccount', 'incomeAccount',
+# 			'class', 'location', 'itemId', 'department', 'displayName',
+# 			'vendorName', 'cost', 'unitsType', 'purchaseDescription',
+# 			'otherVendor', 'vendorCost', 'vendorPriceCurrency', 'lastPurchasePrice'
+# 		)
+# items = ns.folders.get_all()
+# for item in items:
+#     print item
 
-b = ns.items.get_all()
-for i in b:
-    print i
-print b
-exit(1)
+# exit(1)
+
+# b = ns.items.get_all()
+# for i in b:
+#     print i
+# print b
+# exit(1)
 # ns = NetSuiteClient(account=NS_ACCOUNT)
 # ns.connect_tba(consumer_key=NS_CONSUMER_KEY,
 #                consumer_secret=NS_CONSUMER_SECRET,
