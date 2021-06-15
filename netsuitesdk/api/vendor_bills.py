@@ -27,8 +27,8 @@ class VendorBills(ApiBase):
                                            pageSize=20)
         return self._paginated_search_to_generator(paginated_search=paginated_search)
 
-    def get_vendor_and_txn_id(self, vendor_id, txn_id):
-        record_type_search_field = self.ns_client.SearchStringField(searchValue=u'VendorBill', operator=u'contains')
+    def get_vendor_and_txn_id(self, vendor_id, txn_id, _type=u'VendorBill'):
+        record_type_search_field = self.ns_client.SearchStringField(searchValue=_type, operator=u'contains')
         tranx_id_search_field = self.ns_client.SearchStringField(searchValue=txn_id, operator=u'contains')
         entity = self.ns_client.RecordRef(internalId=vendor_id, type="vendorBill")
         vendor_id_search_field = self.ns_client.SearchMultiSelectField(searchValue=entity, operator=u'anyOf')
@@ -44,9 +44,9 @@ class VendorBills(ApiBase):
                                            pageSize=20)
         return list(self._paginated_search_to_generator(paginated_search=paginated_search))
 
-    def get_bill_by_txn_id(self, tran_id):
-        record_type_search_field = self.ns_client.SearchStringField(searchValue=u'VendorBill', operator=u'contains')
-        id_search_field = self.ns_client.SearchMultiSelectField(searchValue={'internalId':tran_id}, operator="anyOf")
+    def get_bill_by_txn_id(self, tran_id, _type=u'VendorBill'):
+        record_type_search_field = self.ns_client.SearchStringField(searchValue=_type, operator=u'contains')
+        id_search_field = self.ns_client.SearchMultiSelectField(searchValue={'internalId': tran_id}, operator="anyOf")
         basic_search = self.ns_client.basic_search_factory(
             u'Transaction',
             recordType=record_type_search_field,

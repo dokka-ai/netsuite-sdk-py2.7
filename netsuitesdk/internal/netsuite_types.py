@@ -3,6 +3,7 @@ Declares all NetSuite types which are available through attribute lookup `ns.<ty
 of a :class:`~netsuitesdk.client.NetSuiteClient` instance `ns`.
 """
 
+
 COMPLEX_TYPES = {
     u'ns0': [
         u'BaseRef',
@@ -35,6 +36,7 @@ COMPLEX_TYPES = {
         u'StringCustomFieldRef',
         u'CustomRecordRef',
         u'SelectCustomFieldRef',
+        u'DateCustomFieldRef',
         u'CustomizationRef',
         u'SearchRowBasic',
         u'CustomizationType'
@@ -85,7 +87,11 @@ COMPLEX_TYPES = {
         u'CustomSearchRowBasic',
         u'SubsidiarySearchRowBasic',
         u'VendorSubsidiaryRelationshipSearchBasic',
-        u'VendorSubsidiaryRelationshipSearchRowBasic'
+        u'VendorSubsidiaryRelationshipSearchRowBasic',
+        # u'RevRecTemplateSearch',
+        # u'RevRecScheduleSearch',
+        u'RevRecTemplateSearchBasic',
+        u'RevRecScheduleSearchBasic',
     ],
 
     # urn:communication.general.webservices.netsuite.com
@@ -141,6 +147,10 @@ COMPLEX_TYPES = {
         u'ExpenseCategorySearchAdvanced',
         u'SubsidiarySearchRow',
         u'SubsidiarySearchAdvanced',
+        u'RevRecTemplate',
+        u'RevRecSchedule',
+        u'RevRecScheduleSearch',
+        u'RevRecTemplateSearch',
     ],
 
     u'ns19': [
@@ -154,10 +164,15 @@ COMPLEX_TYPES = {
     # https://webservices.netsuite.com/xsd/transactions/v2017_2_0/purchases.xsd
     u'ns21': [
         u'VendorBill',
+        u'VendorCredit',
         u'VendorBillExpense',
+        u'VendorCreditExpense',
         u'VendorBillExpenseList',
+        u'VendorCreditExpenseList',
         u'VendorBillItem',
+        u'VendorCreditItem',
         u'VendorBillItemList',
+        u'VendorCreditItemList',
         u'VendorPayment',
         u'VendorPaymentApplyList',
         u'VendorPaymentCredit',
@@ -204,7 +219,6 @@ COMPLEX_TYPES = {
         u'FileSearch',
     ],
 }
-
 SIMPLE_TYPES = {
     # ns1: view-source:https://webservices.netsuite.com/xsd/platform/v2017_2_0/coreTypes.xsd
     u'ns1': [

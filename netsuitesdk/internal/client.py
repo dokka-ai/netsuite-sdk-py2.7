@@ -59,8 +59,7 @@ class NetSuiteClient(object):
         """
         self.logger = logging.getLogger(self.__class__.__name__)
         assert account, u'Invalid account'
-        assert u'-' not in account, u'Account cannot have hyphens, it is likely an underscore'
-        self._account = account
+        self._account = account.upper()
 
         self._wsdl_url = self.WSDL_URL_TEMPLATE.format(account=self.cleaned_account)
         self._datacenter_url = self.DATACENTER_URL_TEMPLATE.format(account=self.cleaned_account)
@@ -91,7 +90,8 @@ class NetSuiteClient(object):
 
     @property
     def cleaned_account(self):
-        return self._account.replace(u'_', u'-')
+        #Normalize account for URLs
+        return self._account.replace(u'_', u'-').lower()
 
     def set_search_preferences(self, page_size = 100, return_search_columns = False):
         self._search_preferences = self.SearchPreferences(
@@ -640,7 +640,7 @@ class NetSuiteClient(object):
             exc = self._request_error(u'attach', detail=status[u'statusDetail'][0])
             raise exc
 
-    def call_get_restlet(self, rest_url, integration_type):
+    def call_get_restlet(self, rest_url, integration_type, recType=None, sublist=None):
         oauth1_client = oauthlib.oauth1.Client(
             self._consumer_key,
             client_secret=self._consumer_secret,
@@ -649,10 +649,14 @@ class NetSuiteClient(object):
             signature_method=self._signature_algorithm,
             realm=self._account
         )
-        main_url = "{}&integrationType={}".format(
+        main_url = '{}&integrationType={}'.format(
             rest_url,
             integration_type
         )
+        if recType:
+            main_url += "&recType="+recType
+        if sublist:
+            main_url += "&sublists="+sublist
 
         url, headers, _ = oauth1_client.sign(main_url)
         headers['Content-Type'] = 'application/json'
