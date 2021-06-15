@@ -3,7 +3,6 @@ from .api.accounts import Accounts
 from .api.classifications import Classifications
 from .api.departments import Departments
 from .api.currencies import Currencies
-from .api.communication import Note
 from .api.locations import Locations
 from .api.vendor_bills import VendorBills
 from .api.vendors import Vendors, VendorSubsidiaryRelationships
@@ -25,7 +24,7 @@ from .api.inventory_item import InventoryItem
 from .api.unitstype import UnitsType
 from .api.purchase_order import PurchaseOrder
 from .api.terms import Terms
-from .api.note import Note
+from .api.communication import Note
 from .api.currencyRate import CurrencyRate
 from .internal.client import NetSuiteClient
 from .internal.utils import PaginatedSearch

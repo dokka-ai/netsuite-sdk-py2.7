@@ -17,10 +17,11 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
                         token_secret=NS_TOKEN_SECRET)
 
 
-start = time()
+# start = time()
 
-a = ns.communication.post({"transaction": "14492", "title": "heyhey", "note": "hohoho"})
+a = ns.communication.post({"transaction": "1293935792427881", "title": "heyhey", "note": "hohoho"})
 
+print a
 exit(0)
 
 
