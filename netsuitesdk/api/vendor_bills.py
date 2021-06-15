@@ -58,6 +58,20 @@ class VendorBills(ApiBase):
                                            pageSize=20)
         return list(self._paginated_search_to_generator(paginated_search=paginated_search))
 
+    def get_bill_by_transaction_number(self, tran_id, _type=u'VendorBill'):
+        record_type_search_field = self.ns_client.SearchStringField(searchValue=_type, operator=u'contains')
+        id_search_field = self.ns_client.SearchStringField(searchValue=tran_id, operator="is")
+        basic_search = self.ns_client.basic_search_factory(
+            u'Transaction',
+            recordType=record_type_search_field,
+            transactionNumber=id_search_field
+        )
+        paginated_search = PaginatedSearch(client=self.ns_client,
+                                           type_name=u'Transaction',
+                                           basic_search=basic_search,
+                                           pageSize=20)
+        return list(self._paginated_search_to_generator(paginated_search=paginated_search))
+
     def post(self, data):
         assert data[u'externalId'], u'missing external id'
         vb = self.ns_client.VendorBill(externalId=data[u'externalId'])

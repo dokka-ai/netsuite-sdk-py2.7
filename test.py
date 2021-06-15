@@ -19,9 +19,8 @@ ns = NetSuiteConnection(account=NS_ACCOUNT,
 
 # start = time()
 
-a = ns.communication.post({"transaction": "1293935792427881", "title": "heyhey", "note": "hohoho"})
-
-print a
+a = ns.vendor_bills.get_bill_by_transaction_number('VENDBILL440', 'vendorBill')
+print len(a)
 exit(0)
 
 
