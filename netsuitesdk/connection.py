@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from .api.accounts import Accounts
-from .api.classifications import Classifications
+from .api.classifications import Classifications, CostCategory
 from .api.departments import Departments
 from .api.currencies import Currencies
 from .api.locations import Locations
@@ -24,7 +24,7 @@ from .api.inventory_item import InventoryItem
 from .api.unitstype import UnitsType
 from .api.purchase_order import PurchaseOrder
 from .api.terms import Terms
-from .api.note import Note
+from .api.communication import Note
 from .api.currencyRate import CurrencyRate
 from .internal.client import NetSuiteClient
 from .internal.utils import PaginatedSearch
@@ -43,6 +43,7 @@ class NetSuiteConnection(object):
         self.accounts = Accounts(ns_client)
         self.classifications = Classifications(ns_client)
         self.departments = Departments(ns_client)
+        self.cost_categories = CostCategory(ns_client)
         self.currencies = Currencies(ns_client)
         self.locations = Locations(ns_client)
         self.vendor_bills = VendorBills(ns_client)
@@ -68,6 +69,7 @@ class NetSuiteConnection(object):
         self.purchase_orders = PurchaseOrder(ns_client)
         self.terms = Terms(ns_client)
         self.currencyRate = CurrencyRate(ns_client)
+        self.communication = Note(ns_client)
         self.currencyRate = CurrencyRate(ns_client)
         self.note = Note(ns_client)
         self.ns = ns_client

@@ -7,3 +7,7 @@ logger = logging.getLogger(__name__)
 class Classifications(ApiBase):
     def __init__(self, ns_client):
         ApiBase.__init__(self, ns_client=ns_client, type_name=u'Classification')
+
+class CostCategory(ApiBase):
+    def __init__(self, ns_client):
+        ApiBase.__init__(self, ns_client=ns_client, type_name=u'CostCategory')

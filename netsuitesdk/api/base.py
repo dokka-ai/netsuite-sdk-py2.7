@@ -16,10 +16,10 @@ class ApiBase:
         pass
         # self.ns_client.
 
-    def get_all(self, page_size=20):
+    def get_all(self, page_size=1000):
         return list(self.get_all_generator(page_size=page_size))
 
-    def get_all_generator(self, page_size=20):
+    def get_all_generator(self, page_size=1000):
         """
         Returns a generator which is more efficient memory-wise
         """
