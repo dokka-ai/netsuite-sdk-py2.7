@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from .api.accounts import Accounts
-from .api.classifications import Classifications
+from .api.classifications import Classifications, CostCategory
 from .api.departments import Departments
 from .api.currencies import Currencies
 from .api.locations import Locations
@@ -43,6 +43,7 @@ class NetSuiteConnection(object):
         self.accounts = Accounts(ns_client)
         self.classifications = Classifications(ns_client)
         self.departments = Departments(ns_client)
+        self.cost_categories = CostCategory(ns_client)
         self.currencies = Currencies(ns_client)
         self.locations = Locations(ns_client)
         self.vendor_bills = VendorBills(ns_client)

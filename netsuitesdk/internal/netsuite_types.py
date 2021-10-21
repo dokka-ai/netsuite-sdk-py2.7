@@ -36,6 +36,8 @@ COMPLEX_TYPES = {
         u'StringCustomFieldRef',
         u'CustomRecordRef',
         u'SelectCustomFieldRef',
+        u'BooleanCustomFieldRef',
+        u'DoubleCustomFieldRef',
         u'DateCustomFieldRef',
         u'CustomizationRef',
         u'SearchRowBasic',
@@ -117,6 +119,7 @@ COMPLEX_TYPES = {
     # https://webservices.netsuite.com/xsd/lists/v2017_2_0/accounting.xsd
     u'ns17': [
         u'Account', u'AccountSearch',
+        u'CostCategory', 'CostCategorySearch',
         u'ExpenseCategory', u'ExpenseCategorySearch',
         u'AccountingPeriod', u'AccountingPeriodSearch',
         u'Classification', u'ClassificationSearch',

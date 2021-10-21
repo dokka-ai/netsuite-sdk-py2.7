@@ -93,7 +93,7 @@ class NetSuiteClient(object):
         #Normalize account for URLs
         return self._account.replace(u'_', u'-').lower()
 
-    def set_search_preferences(self, page_size = 100, return_search_columns = False):
+    def set_search_preferences(self, page_size = 1000, return_search_columns = False):
         self._search_preferences = self.SearchPreferences(
             bodyFieldsOnly=False,
             pageSize=page_size,
@@ -640,7 +640,7 @@ class NetSuiteClient(object):
             exc = self._request_error(u'attach', detail=status[u'statusDetail'][0])
             raise exc
 
-    def call_get_restlet(self, rest_url, integration_type, recType=None, sublist=None):
+    def call_get_restlet(self, rest_url, integration_type, **kwargs):
         oauth1_client = oauthlib.oauth1.Client(
             self._consumer_key,
             client_secret=self._consumer_secret,
@@ -653,10 +653,8 @@ class NetSuiteClient(object):
             rest_url,
             integration_type
         )
-        if recType:
-            main_url += "&recType="+recType
-        if sublist:
-            main_url += "&sublists="+sublist
+        for key, val in kwargs.items():
+            main_url += "&{}={}".format(key, val)
 
         url, headers, _ = oauth1_client.sign(main_url)
         headers['Content-Type'] = 'application/json'
