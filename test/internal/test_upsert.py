@@ -88,8 +88,8 @@ def test_upsert_vendor_bill_expense(ns):
     assert record_ref[u'externalId'] == externalId, u'External ID does not match'
 
     bill2 = ns.get(recordType=u'vendorCredit', externalId=externalId)
-    logger.debug(u'bill2 = %s', unicode(bill2))
-    print bill2[u'userTotal']
+    logger.debug(u'bill2 = %s', str(bill2))
+    print(bill2[u'userTotal'])
     assert (29.99 < bill2[u'userTotal']) and (bill2[u'userTotal'] < 36), u'Bill total is not 30.0'
 
 
@@ -143,8 +143,8 @@ def test_upsert_vendor_bill_items(ns):
     assert record_ref[u'externalId'] == external_id, u'External ID does not match'
 
     bill2 = ns.get(recordType=u'vendorBill', externalId=external_id)
-    logger.debug(u'bill2 = %s', unicode(bill2))
-    print bill2[u'userTotal']
+    logger.debug(u'bill2 = %s', str(bill2))
+    print(bill2[u'userTotal'])
     assert (0< bill2[u'userTotal']) and (bill2[u'userTotal'] < 2), u'Bill total is not 30.0'
 # def test_upsert_journal_entry(ns):
 #     vendor_ref = ns.RecordRef(type=u'vendor', internalId=get_vendor(ns).internalId)

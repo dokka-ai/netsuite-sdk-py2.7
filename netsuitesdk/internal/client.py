@@ -148,7 +148,7 @@ class NetSuiteClient(object):
         return self._simple_types[type_name]
 
     def get_complex_type_attributes(self, complex_type):
-        if isinstance(complex_type, unicode):
+        if isinstance(complex_type, str):
             complex_type = self.get_complex_type(complex_type)
         try:
             return [(attribute.name, attribute.type.name) for attribute in complex_type._attributes]
@@ -156,7 +156,7 @@ class NetSuiteClient(object):
             return []
 
     def get_complex_type_elements(self, complex_type):
-        if isinstance(complex_type, unicode):
+        if isinstance(complex_type, str):
             complex_type = self.get_complex_type(complex_type)
         try:
             return [(attr_name, element.type.name) for attr_name, element in complex_type.elements]
@@ -164,14 +164,14 @@ class NetSuiteClient(object):
             return []
 
     def get_complex_type_info(self, complex_type):
-        if isinstance(complex_type, unicode):
+        if isinstance(complex_type, str):
             complex_type = self.get_complex_type(complex_type)
             label = complex_type
         else:
             if hasattr(complex_type, u'name'):
                 label = complex_type.name
             else:
-                label = unicode(complex_type)
+                label = str(complex_type)
         attributes = self.get_complex_type_attributes(complex_type)
         elements = self.get_complex_type_elements(complex_type)
         yield u'complexType {}:'.format(label)
@@ -224,19 +224,19 @@ class NetSuiteClient(object):
                                           detail=statusDetail,
                                           error_cls=NetSuiteLoginError)
                 raise exc
-        except Fault, fault:
-            exc = NetSuiteLoginError(unicode(fault), code=fault.code)
+        except Fault as fault:
+            exc = NetSuiteLoginError(str(fault), code=fault.code)
             raise exc
 
     def _generate_token_passport(self):
         def compute_nonce(length=20):
             u"""pseudo-random generated numeric string"""
-            return u''.join([unicode(random.randint(0, 9)) for i in xrange(length)])
+            return u''.join([str(random.randint(0, 9)) for i in range(length)])
 
         nonce = compute_nonce(length=20)
         timestamp = int(time.time())
         key = u'{}&{}'.format(self._consumer_secret, self._token_secret)
-        base_string = u'&'.join([self._account, self._consumer_key, self._token_key, nonce, unicode(timestamp)])
+        base_string = u'&'.join([self._account, self._consumer_key, self._token_key, nonce, str(timestamp)])
         key_bytes = key.encode(encoding=u'ascii')
         message_bytes = base_string.encode(encoding=u'ascii')
         # compute the signature
