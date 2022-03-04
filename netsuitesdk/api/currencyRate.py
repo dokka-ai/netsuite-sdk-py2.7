@@ -17,7 +17,7 @@ class CurrencyRate(ApiBase):
 
         basic_search = self.ns_client.basic_search_factory(
             u'CurrencyRate',
-            effectiveDate=self.ns_client.SearchDateField(searchValue=search_date, operator="on"),
+            effectiveDate=self.ns_client.SearchDateField(searchValue=search_date, operator="onOrBefore"),
             baseCurrency=self.ns_client.SearchMultiSelectField(searchValue=base_currency, operator="anyOf"),
             transactionCurrency=self.ns_client.SearchMultiSelectField(searchValue=transaction_currency, operator="anyOf"),
         )
