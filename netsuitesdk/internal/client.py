@@ -11,6 +11,7 @@ import logging
 import os.path
 import random
 import time
+import json
 
 import oauthlib.oauth1
 import requests
@@ -639,6 +640,20 @@ class NetSuiteClient(object):
         else:
             exc = self._request_error(u'attach', detail=status[u'statusDetail'][0])
             raise exc
+
+    def call_post_restlet(self, rest_url, data, **kwargs):
+        oauth1_client = oauthlib.oauth1.Client(
+            self._consumer_key,
+            client_secret=self._consumer_secret,
+            resource_owner_key=self._token_key,
+            resource_owner_secret=self._token_secret,
+            signature_method=self._signature_algorithm,
+            realm=self._account
+        )
+        url, headers, _ = oauth1_client.sign(rest_url, http_method='POST', headers={'Content-Type': 'application/json'})
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+        return response.json()
+
 
     def call_get_restlet(self, rest_url, integration_type, **kwargs):
         oauth1_client = oauthlib.oauth1.Client(
