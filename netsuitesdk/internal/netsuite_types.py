@@ -94,7 +94,8 @@ COMPLEX_TYPES = {
         # u'RevRecScheduleSearch',
         u'RevRecTemplateSearchBasic',
         u'RevRecScheduleSearchBasic',
-        u'EmployeeSearchRowBasic'
+        u'EmployeeSearchRowBasic',
+        'SalesTaxItemSearchBasic'
     ],
 
     # urn:communication.general.webservices.netsuite.com
