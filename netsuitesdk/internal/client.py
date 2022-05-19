@@ -94,9 +94,9 @@ class NetSuiteClient(object):
         #Normalize account for URLs
         return self._account.replace(u'_', u'-').lower()
 
-    def set_search_preferences(self, page_size = 1000, return_search_columns = False):
+    def set_search_preferences(self, page_size=1000, return_search_columns=False, body_fields_only=False):
         self._search_preferences = self.SearchPreferences(
-            bodyFieldsOnly=False,
+            bodyFieldsOnly=body_fields_only,
             pageSize=page_size,
             returnSearchColumns=return_search_columns
         )
