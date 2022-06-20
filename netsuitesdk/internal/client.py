@@ -45,18 +45,18 @@ class NetSuiteClient(object):
     _token_secret = None
     _app_id = None
 
-
-
-    def __init__(self, account=None, caching=True, caching_timeout=2592000):
+    def __init__(self, account=None, caching=True, caching_timeout=2592000, timeout=None):
         u"""
         Initialize the Zeep SOAP client, parse the xsd specifications
         of Netsuite and store the complex types as attributes of this
         instance.
 
-        :param str account_id: Account ID to connect to
+        :param str account: Account ID to connect to
         :param str caching: If caching = 'sqlite', setup Sqlite caching
         :param int caching_timeout: Timeout in seconds for caching.
                             If None, defaults to 30 days
+        :param timeout: The timeout for operations (POST/GET). By
+                              default this is None (no timeout)
         """
         self.logger = logging.getLogger(self.__class__.__name__)
         assert account, u'Invalid account'
@@ -67,9 +67,8 @@ class NetSuiteClient(object):
 
         if caching:
             path = os.path.join(os.path.dirname(os.path.abspath(__file__)), u'cache.db')
-            timeout = caching_timeout
-            cache = SqliteCache(path=path, timeout=timeout)
-            transport = Transport(cache=cache)
+            cache = SqliteCache(path=path, timeout=caching_timeout)
+            transport = Transport(cache=cache, operation_timeout=timeout)
         else:
             transport = None
 
