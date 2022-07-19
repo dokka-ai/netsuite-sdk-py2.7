@@ -22,7 +22,7 @@ from .api.accountingPeriod import AccountingPeriod
 from .api.taxtype import TaxType, TaxGroup
 from .api.inventory_item import InventoryItem
 from .api.unitstype import UnitsType
-from .api.purchase_order import PurchaseOrder
+from .api.transactions import Transactions
 from .api.terms import Terms
 from .api.communication import Note
 from .api.currencyRate import CurrencyRate
@@ -66,7 +66,7 @@ class NetSuiteConnection(object):
         self.taxGroup = TaxGroup(ns_client)
         self.items = InventoryItem(ns_client)
         self.units = UnitsType(ns_client)
-        self.purchase_orders = PurchaseOrder(ns_client)
+        self.transactions = Transactions(ns_client)
         self.terms = Terms(ns_client)
         self.currencyRate = CurrencyRate(ns_client)
         self.communication = Note(ns_client)
