@@ -94,6 +94,8 @@ COMPLEX_TYPES = {
         # u'RevRecScheduleSearch',
         u'RevRecTemplateSearchBasic',
         u'RevRecScheduleSearchBasic',
+        u'EmployeeSearchRowBasic',
+        'SalesTaxItemSearchBasic'
     ],
 
     # urn:communication.general.webservices.netsuite.com
@@ -205,7 +207,9 @@ COMPLEX_TYPES = {
 
     # https://webservices.netsuite.com/xsd/lists/v2019_2_0/employees.xsd
     u'ns34': [
-        u'EmployeeSearch'
+        u'EmployeeSearch',
+        u'EmployeeSearchAdvanced',
+        u'EmployeeSearchRow'
     ],
 
     # urn:employees_2019_2.transactions.webservices.netsuite.com

@@ -4,7 +4,7 @@ from .internal.exceptions import *
 
 
 __all__ = [
-    u'NetSuiteConnection'
+    u'NetSuiteConnection',
     u'NetSuiteError',
     u'NetSuiteLoginError',
     u'NetSuiteRequestError',

@@ -118,7 +118,11 @@ class ApiBase:
             search.basic = self.ns_client.basic_search_factory(self.type_name)
             search_columns_types = dict(search.basic.__class__._xsd_type.elements)
             for search_field, operator, value in search_criteria:
-                _f = search_columns_types[search_field](searchValue=value, operator=operator)
+                if operator is None:
+                    # boolean and other types
+                    _f = search_columns_types[search_field](searchValue=value)
+                else:
+                    _f = search_columns_types[search_field](searchValue=value, operator=operator)
                 setattr(search.basic, search_field, _f)
 
             search_record.criteria = search
