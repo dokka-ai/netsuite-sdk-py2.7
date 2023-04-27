@@ -39,14 +39,14 @@ class ApiBase:
         record: single record
         Returns a dict
         """
-        return zeep.helpers.serialize_object(record)
+        return zeep.helpers.serialize_object(record, target_cls=dict)
 
     def _serialize_array(self, records):
         """
         records: a list of records
         Returns an array of dicts
         """
-        return zeep.helpers.serialize_object(records)
+        return zeep.helpers.serialize_object(records, target_cls=dict)
 
     def _paginated_search_to_generator(self, paginated_search):
         if paginated_search.num_records == 0:
