@@ -95,7 +95,9 @@ COMPLEX_TYPES = {
         u'RevRecTemplateSearchBasic',
         u'RevRecScheduleSearchBasic',
         u'EmployeeSearchRowBasic',
-        'SalesTaxItemSearchBasic'
+        'SalesTaxItemSearchBasic',
+        'FolderSearchRowBasic',
+        'FolderSearchBasic'
     ],
 
     # urn:communication.general.webservices.netsuite.com
@@ -221,6 +223,8 @@ COMPLEX_TYPES = {
     ],
     u'ns11': [
         u'FolderSearch',
+        'FolderSearchAdvanced',
+        'FolderSearchRow',
         u'Folder',
         u'File',
         u'FileSearch',
