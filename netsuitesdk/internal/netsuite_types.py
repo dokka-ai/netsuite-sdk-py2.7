@@ -97,7 +97,9 @@ COMPLEX_TYPES = {
         u'EmployeeSearchRowBasic',
         'SalesTaxItemSearchBasic',
         'FolderSearchRowBasic',
-        'FolderSearchBasic'
+        'FolderSearchBasic',
+        'AccountingBookDetailList',
+        'AccountingBookDetail',
     ],
 
     # urn:communication.general.webservices.netsuite.com
