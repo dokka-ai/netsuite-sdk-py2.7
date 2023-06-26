@@ -74,6 +74,7 @@ class NetSuiteClient(object):
 
         # Initialize the Zeep Client
         self._client = Client(self._wsdl_url, transport=transport)
+        self._timeout = timeout
 
         # default service points to wrong data center. need to create a new service proxy and replace the default one
         self._service_proxy = self._client.create_service(u'{urn:platform_2020_1.webservices.netsuite.com}NetSuiteBinding', self._datacenter_url)
@@ -640,8 +641,9 @@ class NetSuiteClient(object):
             exc = self._request_error(u'attach', detail=status[u'statusDetail'][0])
             raise exc
 
-    def call_post_restlet(self, rest_url, data, **kwargs):
-        oauth1_client = oauthlib.oauth1.Client(
+    @property
+    def oauth1_client(self):
+        return oauthlib.oauth1.Client(
             self._consumer_key,
             client_secret=self._consumer_secret,
             resource_owner_key=self._token_key,
@@ -649,20 +651,15 @@ class NetSuiteClient(object):
             signature_method=self._signature_algorithm,
             realm=self._account
         )
-        url, headers, _ = oauth1_client.sign(rest_url, http_method='POST', headers={'Content-Type': 'application/json'})
-        response = requests.post(url, data=json.dumps(data), headers=headers)
+
+    def call_post_restlet(self, rest_url, data, **kwargs):
+        url, headers, _ = self.oauth1_client.sign(
+            rest_url, http_method='POST', headers={'Content-Type': 'application/json'}
+        )
+        response = requests.post(url, data=json.dumps(data), headers=headers, timeout=self._timeout)
         return response.json()
 
-
     def call_get_restlet(self, rest_url, integration_type, **kwargs):
-        oauth1_client = oauthlib.oauth1.Client(
-            self._consumer_key,
-            client_secret=self._consumer_secret,
-            resource_owner_key=self._token_key,
-            resource_owner_secret=self._token_secret,
-            signature_method=self._signature_algorithm,
-            realm=self._account
-        )
         main_url = '{}&integrationType={}'.format(
             rest_url,
             integration_type
@@ -670,9 +667,9 @@ class NetSuiteClient(object):
         for key, val in kwargs.items():
             main_url += "&{}={}".format(key, val)
 
-        url, headers, _ = oauth1_client.sign(main_url)
+        url, headers, _ = self.oauth1_client.sign(main_url)
         headers['Content-Type'] = 'application/json'
-        response = requests.get(main_url, headers=headers)
+        response = requests.get(main_url, headers=headers, timeout=self._timeout)
         return response.json()
 
     # def upsertList(self, records):
