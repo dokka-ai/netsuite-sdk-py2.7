@@ -64,6 +64,7 @@ COMPLEX_TYPES = {
     u'ns5': [
         u'AccountSearchBasic',
         u'CustomerSearchBasic',
+        u'CustomerSearchRowBasic',
         u'JobSearchBasic',
         u'LocationSearchBasic',
         u'TransactionSearchBasic',
@@ -109,9 +110,14 @@ COMPLEX_TYPES = {
 
     # urn:relationships.lists.webservices.netsuite.com
     u'ns13': [
-        u'Customer', u'CustomerSearch',
-        u'Vendor', u'VendorSearch',
-        u'Job', u'JobSearch',
+        u'Customer',
+        u'CustomerSearch',
+        u'CustomerSearchAdvanced',
+        u'CustomerSearchRow',
+        u'Vendor',
+        u'VendorSearch',
+        u'Job',
+        u'JobSearch',
         u'VendorSearchAdvanced',
         u'VendorSearchRow',
         u'VendorCurrency',
