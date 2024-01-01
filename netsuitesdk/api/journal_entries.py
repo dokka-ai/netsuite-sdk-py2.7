@@ -54,6 +54,9 @@ class JournalEntries(ApiBase):
         je[u'lineList'] = self.ns_client.JournalEntryLineList(line=line_list)
         je[u'currency'] = self.ns_client.RecordRef(**(data[u'currency']))
 
+        if u'exchangeRate' in data:
+            je[u'exchangeRate'] = data[u'exchangeRate']
+
         if u'memo' in data:
             je[u'memo'] = data[u'memo']
 
