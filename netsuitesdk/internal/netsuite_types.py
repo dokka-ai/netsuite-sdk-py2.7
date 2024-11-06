@@ -9,7 +9,7 @@ COMPLEX_TYPES = {
         u'BaseRef',
         u'GetAllRecord',
         u'GetAllResult',
-        u'Passport',
+        #u'Passport',  # deprecated
         u'RecordList',
         u'RecordRef',
         u'RecordRefList',

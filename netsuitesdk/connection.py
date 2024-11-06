@@ -31,8 +31,8 @@ from .internal.utils import PaginatedSearch
 
 
 class NetSuiteConnection(object):
-    def __init__(self, account, consumer_key, consumer_secret, token_key, token_secret, timeout=None):
-        ns_client = NetSuiteClient(account=account, timeout=timeout)
+    def __init__(self, account, consumer_key, consumer_secret, token_key, token_secret, timeout=None, wsdl_version=None):
+        ns_client = NetSuiteClient(account=account, timeout=timeout, wsdl_version=wsdl_version)
         ns_client.connect_tba(
             consumer_key=consumer_key,
             consumer_secret=consumer_secret,

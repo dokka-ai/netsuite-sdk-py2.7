@@ -12,6 +12,7 @@ import os.path
 import random
 import time
 import json
+import re
 
 import oauthlib.oauth1
 import requests
@@ -31,8 +32,8 @@ class NetSuiteClient(object):
     u"""The Netsuite client class providing access to the Netsuite
     SOAP/WSDL web service"""
 
-    WSDL_URL_TEMPLATE = u'https://{account}.suitetalk.api.netsuite.com/wsdl/v2020_1_0/netsuite.wsdl'
-    DATACENTER_URL_TEMPLATE = u'https://{account}.suitetalk.api.netsuite.com/services/NetSuitePort_2020_1'
+    WSDL_URL_TEMPLATE = u'https://{account}.suitetalk.api.netsuite.com/wsdl/v{wsdl_version}_0/netsuite.wsdl'
+    DATACENTER_URL_TEMPLATE = u'https://{account}.suitetalk.api.netsuite.com/services/NetSuitePort_{wsdl_version}'
 
     _search_preferences = None
     _passport = None
@@ -45,7 +46,7 @@ class NetSuiteClient(object):
     _token_secret = None
     _app_id = None
 
-    def __init__(self, account=None, caching=True, caching_timeout=2592000, timeout=None):
+    def __init__(self, account=None, caching=True, caching_timeout=2592000, timeout=None, wsdl_version: str = None):
         u"""
         Initialize the Zeep SOAP client, parse the xsd specifications
         of Netsuite and store the complex types as attributes of this
@@ -62,8 +63,17 @@ class NetSuiteClient(object):
         assert account, u'Invalid account'
         self._account = account.upper()
 
-        self._wsdl_url = self.WSDL_URL_TEMPLATE.format(account=self.cleaned_account)
-        self._datacenter_url = self.DATACENTER_URL_TEMPLATE.format(account=self.cleaned_account)
+        self.wsdl_version = '2020_1'
+
+        if wsdl_version:
+            if not re.match(r'^\d{4}_(\d{1,2})?$', wsdl_version):
+                raise ValueError(
+                    "Invalid wsdl_version format. It should be in the following format: year_version eg: '2024_1'"
+                )
+            self.wsdl_version = wsdl_version
+
+        self._wsdl_url = self.WSDL_URL_TEMPLATE.format(account=self.cleaned_account, wsdl_version=self.wsdl_version)
+        self._datacenter_url = self.DATACENTER_URL_TEMPLATE.format(account=self.cleaned_account, wsdl_version=self.wsdl_version)
 
         if caching:
             path = os.path.join(os.path.dirname(os.path.abspath(__file__)), u'cache.db')
@@ -77,7 +87,8 @@ class NetSuiteClient(object):
         self._timeout = timeout
 
         # default service points to wrong data center. need to create a new service proxy and replace the default one
-        self._service_proxy = self._client.create_service(u'{urn:platform_2020_1.webservices.netsuite.com}NetSuiteBinding', self._datacenter_url)
+        netsuite_binding_str = '{urn:platform_%s.webservices.netsuite.com}NetSuiteBinding' % self.wsdl_version
+        self._service_proxy = self._client.create_service(netsuite_binding_str, self._datacenter_url)
 
         # Parse all complex types specified in :const:`~netsuitesdk.netsuite_types.COMPLEX_TYPES`
         # and store them as attributes of this instance. Same for simple types.
