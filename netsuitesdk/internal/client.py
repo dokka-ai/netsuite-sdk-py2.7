@@ -303,6 +303,29 @@ class NetSuiteClient(object):
         self._token_secret = None
         return response.status
 
+    def close(self):
+        try:
+            transport = self._client.transport
+        except AttributeError:
+            transport = None
+
+        if transport is not None:
+            session = getattr(transport, "session", None)
+            if session is not None:
+                session.close()
+
+        self._client = None
+        self._service_proxy = None
+        self._search_preferences = None
+        self._passport = None
+
+        if hasattr(self, "_namespaces"):
+            self._namespaces.clear()
+        if hasattr(self, "_complex_types"):
+            self._complex_types.clear()
+        if hasattr(self, "_simple_types"):
+            self._simple_types.clear()
+
     def _request_error(self, service_name, detail, error_cls=None):
         if error_cls is None:
             error_cls = NetSuiteRequestError

@@ -80,3 +80,12 @@ class NetSuiteConnection(object):
     def get_record(self, type_name):
         paginated_search = PaginatedSearch(client=self.ns, type_name=type_name, pageSize=20)
         return paginated_search.records[0]
+
+    def close(self):
+        if not self.ns:
+            return
+
+        self.ns.close()
+
+        self.client = None
+        self.ns = None
